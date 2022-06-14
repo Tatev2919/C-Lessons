@@ -50,9 +50,11 @@ class BST{
 			cp(t.root);
 			return* this;       	
 		}
+	
 
 		//operator for comparison 2 bts	
-		bool operator==(BST& t) {
+		bool operator==(const BST& t) {
+			cout << "called == operator" << endl;
 			if (this == &t) {
 				cout << "The same object." << endl;
 				return true;
@@ -63,6 +65,10 @@ class BST{
 			return compare(root,t.root);
         	}
 		
+		bool operator!=(const BST& t) {
+			return !(*this==t);
+		}
+
 		void add(int x) {
 			add(root,x);
 		}
@@ -322,7 +328,13 @@ int main () {
 	b.add(195);
 	BST b1;
 	b1.add(5);
-        b1.add(3);	
+        b1.add(3);
+	cout << "------------our check-----------------------"	<<endl;
+	if (b!=b1) {
+		cout << "BST s are not equal" << endl;
+	} else {
+		cout << "BST s are equal" << endl;
+	}
 	cout << "----------------Print in asc order---------------" << endl;
 	b.print();
 	cout << "----------------Print in desc order-------------" << endl;
@@ -371,5 +383,7 @@ int main () {
 		cout << " true" << endl;
 	}
 	b = b;
+
+	
 	return 0;
 }
