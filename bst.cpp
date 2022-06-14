@@ -147,10 +147,8 @@ class BST{
 					}
 					else {
 						Node* t = res->parent;
-						Node* ch = res->right;
 						t->left = res->right;
 						delete res;
-						ch = nullptr;
 						--length;
 						return true;
 					}
