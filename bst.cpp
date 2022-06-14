@@ -37,6 +37,10 @@ class BST{
 		}
 	
 		BST& operator=(const BST& t){
+			if (this == &t) {
+				cout << "The same object." << endl;
+				return* this;
+			}
 			if (!is_empty()){
 				destroy(root);
 			}
@@ -49,6 +53,11 @@ class BST{
 
 		//operator for comparison 2 bts	
 		bool operator==(BST& t) {
+			
+			if (this == &t) {
+				cout << "The same object." << endl;
+				return true;
+			}
             		if (length != t.length) {
                 		return false;
             		}
@@ -358,6 +367,10 @@ int main () {
 	b.remove(200);
 	cout << "After removing 200" << endl;
 	b.print();
-
+ 
+	if (b==b) {
+		cout << " true" << endl;
+	}
+	b = b;
 	return 0;
 }
