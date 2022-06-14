@@ -53,7 +53,6 @@ class BST{
 
 		//operator for comparison 2 bts	
 		bool operator==(BST& t) {
-			
 			if (this == &t) {
 				cout << "The same object." << endl;
 				return true;
@@ -96,12 +95,12 @@ class BST{
 		}
 
 		Node* find_min(Node* tmp) {
-			if (tmp->left == nullptr){
-				return tmp;
-			} else {
-				return find_min(tmp->left);
+			Node* t = tmp;
+			while (tmp->left!=nullptr) {
+				t = tmp->left;
+				tmp->left = tmp->left->left;	
 			}
-			
+			return t;
 		}
 		
 		bool remove(int value) {
