@@ -218,7 +218,7 @@ class Map{
 				return false;
 			}
 			if (tmp1!= nullptr && tmp2!=nullptr){
-				if(tmp1->key != tmp2->key) {
+				if(tmp1->key != tmp2->key || tmp1->value != tmp2->value) {
 					cout << "Second if" << endl;
 					cout << tmp1->key << " tmp1->key and tmp2->key " <<  tmp2->key  << endl;
 					cout << tmp1->value << " tmp1->value and tmp2->value " <<  tmp2->value << endl;
@@ -264,34 +264,28 @@ class Map{
 				return;
 			}
 			Node* t = find_ex(key); 
+			if (t != nullptr) {
+				t->value = value;
+				return;
+			}
 			if ( key > tmp->key ) {
 				//Comment special:
 				//in this case tmp->value is not in managed address
 				if (tmp->right == nullptr) {	
 					//Comment special:
 					// then was working this block
-					if (t==nullptr) {
-						tmp->right=new Node(key,value);
-						tmp->right->parent = tmp;
-						length++;
-					} else {
-						cout << "t->value " << t->value << endl;
-						t->value = value;
-					}
+					tmp->right=new Node(key,value);
+					tmp->right->parent = tmp;
+					length++;
 				} else {
 					add(tmp->right, value, key);
 				}
 			} else if ( key < tmp->key ) {
 				if (tmp->left == nullptr) {
 					//cout << find_ex(key) << " key " << key << endl;
-					if (t==nullptr) {
-						tmp->left=new Node(key,value);
-						tmp->left->parent = tmp;
-						length++;
-					} else {
-						cout << "t->value " << t->value << endl;
-						t->value = value;
-					}
+					tmp->left=new Node(key,value);
+					tmp->left->parent = tmp;
+					length++;
 				} else {
 					add(tmp->left, value, key);
 				}
