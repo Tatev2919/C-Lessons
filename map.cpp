@@ -2,15 +2,15 @@
 using namespace std;
 class Node {
     public:
+	int key;
         int value;
-	      int key;
         Node* left;
         Node* right;
 	Node* parent;
-        Node (int v,int k) {
+        Node (int k,int v) {
+	    key = k;
             value = v;
-	          key = k;
-	          parent = nullptr;
+	    parent = nullptr;
             left = nullptr;
             right = nullptr;
         }
@@ -96,9 +96,9 @@ class Map{
 			}
 		}
 		
-		Node* find_ex(int value){
+		Node* find_ex(int key){
 			if (!is_empty()) {
-				return find_ex(root,value);
+				return find_ex(root,key);
 			}
 			return nullptr;
 		}
@@ -259,28 +259,38 @@ class Map{
 			
 			if (root == nullptr){
 				length++;
-				cout << "root is nullptr" << endl;
-				root = new Node(value,key);
-			} else if ( key > tmp->key ) {
+				//cout << "root is nullptr" << endl;
+				root = new Node(key,value);
+				return;
+			}
+			Node* t = find_ex(key); 
+			if ( key > tmp->key ) {
 				//Comment special:
 				//in this case tmp->value is not in managed address
 				if (tmp->right == nullptr) {	
 					//Comment special:
 					// then was working this block
-					if (!find(key)) {
-						tmp->right=new Node(value,key);
+					if (t==nullptr) {
+						tmp->right=new Node(key,value);
 						tmp->right->parent = tmp;
 						length++;
+					} else {
+						cout << "t->value " << t->value << endl;
+						t->value = value;
 					}
 				} else {
 					add(tmp->right, value, key);
 				}
 			} else if ( key < tmp->key ) {
 				if (tmp->left == nullptr) {
-					if (!find(key)) {
-						tmp->left=new Node(value,key);
+					//cout << find_ex(key) << " key " << key << endl;
+					if (t==nullptr) {
+						tmp->left=new Node(key,value);
 						tmp->left->parent = tmp;
 						length++;
+					} else {
+						cout << "t->value " << t->value << endl;
+						t->value = value;
 					}
 				} else {
 					add(tmp->left, value, key);
@@ -306,8 +316,9 @@ class Map{
 		Node* find_ex(Node* tmp, int key) {
 			if (tmp==nullptr) {
 				return nullptr;
-			} 
+			}
 			if (key==tmp->key) {
+				cout << "hello"<<endl;
 				return tmp;
 			} else if ( key > tmp->key ) {
 				return find_ex(tmp->right, key);
@@ -326,6 +337,8 @@ int main () {
 	b.add(50,1);
 	b.add(30,2);
 	b.add(100,6);
+	b.print();
+	b.add(190,6);
 	b.add(10,8);
 	b.add(1,3);
 	b.add(40,5);
@@ -336,51 +349,51 @@ int main () {
 	Map b1;
 	b1.add(5,1);
         b1.add(3,2);
-	cout << "------------our check-----------------------"	<<endl;
-	if (b!=b1) {
-		cout << "Map s are not equal" << endl;
-	} else {
-		cout << "Map s are equal" << endl;
-	}
-	cout << "----------------Print in asc order---------------" << endl;
-	b.print();
-	cout << "----------------Print in desc order-------------" << endl;
-	b.print(true);
-	b1 = b;
-	cout << "------------print copy-------------" << endl;
-	b1.print();
-	cout << "---------------calling copy constructor-----------------" << endl;
-	Map b2 = b1;
-	b2.print();
-	cout << "---------------Compare Map s-----------------" << endl;
-	if (b2==b1) {
-		cout << "Map s are equal" << endl;
-	} else {
-		cout << "Map s aren't equal" << endl;
-	}
-	cout << "-----------------Removing part---------------" << endl;
-	cout << "Removing key 4 : case 1 has no leaves" << endl;
-	b.print();
-	b.remove(4);
-	cout << "After removing key 4 value 65 " << endl;
-	b.print();
-	cout << "-----------------Removing part---------------" << endl;
-	cout << "Removing key 0 : case 2 has one leaf" << endl;
-	b.print();
-	b.remove(0);
-	cout << "After removing key 0 value 42 " << endl;
-	b.print();
-	cout << "-----------------Removing part---------------" << endl;
-	cout << "Removing key 6 : case 3 has 2 leaves" << endl;
-	b.print();
-	b.remove(6);
-	cout << "After removing key 6 value 100 " << endl;
-	b.print();
+	//cout << "------------our check-----------------------"	<<endl;
+	//if (b!=b1) {
+	//	cout << "Map s are not equal" << endl;
+	//} else {
+	//	cout << "Map s are equal" << endl;
+	//}
+	//cout << "----------------Print in asc order---------------" << endl;
+	//b.print();
+	//cout << "----------------Print in desc order-------------" << endl;
+	//b.print(true);
+	//b1 = b;
+	//cout << "------------print copy-------------" << endl;
+	//b1.print();
+	//cout << "---------------calling copy constructor-----------------" << endl;
+	//Map b2 = b1;
+	//b2.print();
+	//cout << "---------------Compare Map s-----------------" << endl;
+	//if (b2==b1) {
+	//	cout << "Map s are equal" << endl;
+	//} else {
+	//	cout << "Map s aren't equal" << endl;
+	//}
+	//cout << "-----------------Removing part---------------" << endl;
+	//cout << "Removing key 4 : case 1 has no leaves" << endl;
+	//b.print();
+	//b.remove(4);
+	//cout << "After removing key 4 value 65 " << endl;
+	//b.print();
+	//cout << "-----------------Removing part---------------" << endl;
+	//cout << "Removing key 0 : case 2 has one leaf" << endl;
+	//b.print();
+	//b.remove(0);
+	//cout << "After removing key 0 value 42 " << endl;
+	//b.print();
+	//cout << "-----------------Removing part---------------" << endl;
+	//cout << "Removing key 6 : case 3 has 2 leaves" << endl;
+	//b.print();
+	//b.remove(6);
+	//cout << "After removing key 6 value 100 " << endl;
+	//b.print();
  
-	if (b==b) {
-		cout << " true" << endl;
-	}
-	b = b;
+	//if (b==b) {
+	//	cout << " true" << endl;
+	//}
+	//b = b;
 
 	
 	return 0;
