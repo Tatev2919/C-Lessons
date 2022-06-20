@@ -29,7 +29,7 @@ class Linkedlist{
         Linkedlist () {}
         Linkedlist (const Linkedlist& ll ) {
                 Node* h = ll.head;
-                for (int i = 0; i < length ; ++i) {
+                for (int i = 0; i < ll.length ; ++i) {
                         push_back(h->value);
                         h = h ->next;
                 }
@@ -244,7 +244,9 @@ int main () {
     ll1.push_back(1);
     ll1.push_back(6);
     //ll1.push_front(2);
-    Linkedlist ll2;
+    Linkedlist ll2 = ll;
+    cout << "Calling copy constructor . " << endl; 
+    ll2.print();
     ll1 = ll;
     ll1.print();
     return 0;
