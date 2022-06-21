@@ -57,7 +57,6 @@ private:
         //    return;
         //}
         if (i == 0) {
-	    cout << add->value << " hello " << endl;
             push_front(add);
             return;
         } else if (i == length) {
@@ -151,13 +150,11 @@ public:
         for (Node *tmp = head; tmp != nullptr; tmp = tmp->next) {
             if (x > tmp->value) {
                 insert(t, i);
-		if (x==3) {
-		    cout << " i value is : " << i << endl;
-		}
                 return;
             }
             ++i;
         }
+    	push_back(t);
     }
 
     bool find(int x) {
@@ -211,7 +208,6 @@ public:
 
     void print() {
         for (Node *tmp = head; tmp != nullptr; tmp = tmp->next){
-	    cout << " helloooo " << endl;
             cout << tmp->value << endl;
         }
     }
@@ -290,9 +286,5 @@ int main()
     pq1.push(5);
     pr_queue pq2;
     
-    //pq1 = pq;
-    //pq1.print();    
-    cout << "Find" <<endl; 
-    cout << pq.find(14) << endl;
     return 0;
 }
