@@ -19,6 +19,8 @@ class Map{
     private:
         Node* root = nullptr;
         int length = 0;
+    
+
     public:
 		bool is_empty(){
 			return (root==nullptr);
@@ -251,7 +253,19 @@ class Map{
 				print(tmp->left,true);
 			} 
 		}
+		
+		int find_loc(int key) {
+			int i = 0;
+			for (Node *tmp = head; tmp != nullptr; tmp = tmp->next) {
+			    if (key > tmp->key) {
+				insert(t, i);
+				return;
+			    }
+			    ++i;
+			}
 
+		}
+		
 
 		void add(Node* tmp, int value,int key) {
 			//Comment special:
@@ -265,6 +279,7 @@ class Map{
 			}
 			Node* t = find_ex(key); 
 			if (t != nullptr) {
+				while(key ) {
 				t->value = value;
 				return;
 			}
