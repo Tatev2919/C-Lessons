@@ -62,28 +62,6 @@ class map{
 	    }
         }
 
-        void insert(Node* add ,int k, int i) {
-	    if (!find(k)) {
-		Node* tmp = head;
-		if (is_empty()){
-		    head = tail = add;
-		}
-		if (i == 0) {
-		    push_front(add,k);
-		}
-		else if (i == length){
-		    push_back(add,k);
-		} else {
-		    for(int j = 0; j != i; ++j){
-			tmp = tmp->next;
-		    }
-		    tmp->prev->next = add;
-		    add->next = tmp;
-		    add->prev = tmp->prev;
-		    tmp->prev = add;
-		}
-	    }
-        }
 
     public:
 	   
@@ -134,23 +112,33 @@ class map{
 	}
 	//Fast search 
         void push(int key, int value) {
-            Node* t = new Node(value,key);
-            if (is_empty()) {
-                push_front(t,key);
-                return;
-            } 
-            if (key < tail->key ) {
-                push_back(t,key);
-                return;
-            }
-            int i = 0;
-            for (Node* tmp = head; tmp != nullptr; tmp = tmp->next) {
-                if (key > tmp->key) {
-                    insert(t,key,i);
-                    return;
-                }
-                ++i;
-            }
+	    if (!find(key)) {
+                Node* t = new Node(value,key);
+		if (is_empty()){
+		    head = tail = t;
+		    return;
+		}
+		if (key > head->key) {
+		    push_front(t,key);
+		    return;
+		}
+		else if (key < tail->key){
+		    push_back(t,key);
+		    return;
+		} else {
+		    Node* tmp = head;
+	            while (tmp!=nullptr) {
+            		if (key > tmp->key) {
+			    break;
+			}
+			tmp = tmp->next;	
+                    }
+		    tmp->prev->next = t;
+		    t->next = tmp;
+		    t->prev = tmp->prev;
+		    tmp->prev = t;
+		}
+	    }
         }
 
         int pop_back(){
