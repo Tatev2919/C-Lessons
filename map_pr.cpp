@@ -135,40 +135,40 @@ class map{
 	    }
         }
 
-        int pop_back(){
+        Node* pop_back(){
             if (is_empty()){
-                return -1;
+                return nullptr;
             }
             Node* t = tail;
 	    if (head == tail){
 	        head=tail=nullptr;
                 --length;
-                int val = t->value;
+                Node* val = t;
                 delete t;
                 return val; 
 	    }
             tail = tail-> prev;
             tail-> next = nullptr;
-	    int val = t-> value;
+	    Node* val = t;
 	    delete t;
             --length;
             return val;
         }
-        int pop_front(){
+        Node* pop_front(){
             if (is_empty()){
-                return -1;
+                return nullptr;
             }
             Node* h = head;
 	    if (head == tail){
 	        head=tail=nullptr;
                 --length;
-                int val = h->value;
+                Node* val = h;
                 delete h;
                 return val; 
 	    }
             head = head-> next;
             head-> prev = nullptr;
-            int val = h->value;
+            Node* val = h;
 	    delete h;
             --length;
             return val;
@@ -188,16 +188,17 @@ class map{
             }
             return tmp->value;
         }
-        int pop(int i){
+
+        Node* pop(int i){
             Node* tmp = head;
             cout << length << " : length is " << endl;
             if (is_empty() || i > (length-1)){
-                return -1;
+                return nullptr;
             }
             if (head == tail){
                 head=tail=nullptr;
 		--length;
-		int val = tmp->value;
+		Node* val = tmp;
 		delete tmp;
                 return val;
             }
@@ -210,7 +211,7 @@ class map{
                     tmp->prev->next = tmp->next;
                     cout<< tmp->value << endl;
                     --length;
-	            int val = tmp -> value;
+	            Node* val = tmp;
                     delete tmp;
                     return val;
                 } else {
@@ -239,13 +240,7 @@ int main () {
     ll.push(2,4);
     ll.push(2,5);
     ll.print();
-    //map ll1;
-    //ll1.push_back(4);
-    //ll1.push_back(15);
-    //ll1.push_back(17);
-    //ll1.push_back(1);
-    //ll1.push_back(6);
-    //ll1.push_front(2);
+    cout << ll.pop(1)->value;
     //if (ll == ll1) {
     //    cout << "Is equal" << endl;
     //} else {
