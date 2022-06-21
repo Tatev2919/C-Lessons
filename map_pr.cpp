@@ -19,17 +19,16 @@ class map{
         Node* tail = nullptr;
         int length = 0;
 	
-        bool find(int key) {
+        Node* find(int key) {
             for( Node* tmp = head;tmp!= nullptr;tmp = tmp->next){
             	if (tmp->key==key){
-		    return true;
+		    return tmp;
 		}
 	    } 		
-	    return false;
+	    return nullptr;
 	}
 	
         void push_back(Node* temp, int k) {
-		if (!find(k)) {
 		    if (head == nullptr) {
 			head = temp;
 			tail = temp;
@@ -39,12 +38,8 @@ class map{
 			    tail = temp;
 		    }
 		    ++length;
-		} else {
-		    cout << "Key is not unique" <<endl;
-		}
         }
         void push_front(Node* temp, int k) {
-	    if (!find(k)) {
 		if (is_empty()) {
 		    head = temp;
 		    tail = temp;
@@ -57,9 +52,6 @@ class map{
 		
 		} 
 		++length;
-	    } else {
-		cout << "Key is not unique" <<endl;
-	    }
         }
 
 
@@ -112,7 +104,7 @@ class map{
 	}
 	//Fast search 
         void push(int key, int value) {
-	    if (!find(key)) {
+	    if (find(key)== nullptr) {
                 Node* t = new Node(value,key);
 		if (is_empty()){
 		    head = tail = t;
@@ -138,6 +130,8 @@ class map{
 		    t->prev = tmp->prev;
 		    tmp->prev = t;
 		}
+	    } else {
+		find(key)->value = value;
 	    }
         }
 
@@ -243,6 +237,7 @@ int main () {
     ll.push(1,11);
     ll.push(6,4);
     ll.push(2,4);
+    ll.push(2,5);
     ll.print();
     //map ll1;
     //ll1.push_back(4);
