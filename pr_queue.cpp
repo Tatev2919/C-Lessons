@@ -145,7 +145,11 @@ public:
         if (is_empty()) {
             push_front(t);
             return;
-        }
+        } 
+        if (x < tail->value ) {
+    	    push_back(t);
+            return;
+	}
         int i = 0;
         for (Node *tmp = head; tmp != nullptr; tmp = tmp->next) {
             if (x > tmp->value) {
@@ -154,7 +158,6 @@ public:
             }
             ++i;
         }
-    	push_back(t);
     }
 
     bool find(int x) {
