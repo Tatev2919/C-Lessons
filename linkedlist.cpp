@@ -227,27 +227,53 @@ class Linkedlist{
         bool is_empty() {
             return head == nullptr;
         }
+	
+	void insertion_sort() {
+		if (head == tail) {
+			return;
+		}
+
+		Node* t = nullptr;
+		for (Node* tmp = head->next;tmp!= nullptr; tmp = tmp->next){
+			t = tmp->prev;
+			
+			cout << "t->value" << t->value <<endl;
+			while (t!=nullptr && t->value > tmp->value){
+				t = t -> prev;
+			} 
+			
+			cout << " post t->value" << t->value <<endl;
+			if (t != tmp->prev){
+			//tmp->prev = t-> prev;
+			//t->prev->next = tmp;
+			//t->prev = tmp;
+			//tmp->next = t;
+			 }
+		}
+	
+	}
 };
 int main () {
     Linkedlist ll;
     ll.push_back(4);
     ll.push_back(15);
     ll.push_back(17);
-    ll.push_back(1);
+    ll.push_back(16);
     ll.push_back(6);
-    ll.push_front(2);
-    ll.print();
-    Linkedlist ll1;
-    ll1.push_back(4);
-    ll1.push_back(15);
-    ll1.push_back(17);
-    ll1.push_back(1);
-    ll1.push_back(6);
-    //ll1.push_front(2);
-    Linkedlist ll2 = ll;
-    cout << "Calling copy constructor . " << endl; 
-    ll2.print();
-    ll1 = ll;
-    ll1.print();
+    //ll.push_front(2);
+    ll.print(); 
+    ll.insertion_sort();
+    //Linkedlist ll1;
+    //ll1.push_back(4);
+    //ll1.push_back(15);
+    //ll1.push_back(17);
+    //ll1.push_back(1);
+    //ll1.push_back(6);
+    ////ll1.push_front(2);
+    //Linkedlist ll2 = ll;
+    //cout << "Calling copy constructor . " << endl; 
+    //ll2.print();
+    //ll1 = ll;
+    //ll1.print();
     return 0;
 } 
