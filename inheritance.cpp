@@ -32,7 +32,7 @@ class medic : public specialist {
 		string experience;
 		string salary;
 	void print (){
-		cout << "specialist print" << endl; 
+		cout << "medic print" << endl; 
 		cout << "name is : " << name << endl;
 		cout << "surname is : " << surname << endl;
 		cout << "age is : " << age << endl;
@@ -48,7 +48,7 @@ class surgeon : public medic {
 	public:
 		string direction;
 	void print (){
-		cout << "specialist print" << endl; 
+		cout << "surg print" << endl; 
 		cout << "name is : " << name << endl;
 		cout << "surname is : " << surname << endl;
 		cout << "age is : " << age << endl;
@@ -64,7 +64,7 @@ class cardio_surgeon : public surgeon {
 	public:
 		int patients;
 	void print (){
-		cout << "specialist print" << endl; 
+		cout << "cardio print" << endl; 
 		cout << "name is : " << name << endl;
 		cout << "surname is : " << surname << endl;
 		cout << "age is : " << age << endl;
