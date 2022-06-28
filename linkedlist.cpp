@@ -237,18 +237,22 @@ class Linkedlist{
 			t = tmp->prev;
 			while (t!=nullptr && t->value > tmp->value){
 				t = t -> prev;
-			} 
+			}
+			//if my 2 initial values are not moved  
 			if (t != tmp->prev){
+				// if tmp value is not in tail cut tmp from ll
+				// --common part
 				if (tmp!= tail){
 					tmp->prev->next = tmp->next;
 					tmp->next->prev = tmp->prev;
-				} else {
+				} else { // if tmp value is in tail change tail to tmp;
 				    tail = tmp->prev;
 				    tmp->prev->next=nullptr;
 				}
+				// if comparison pointer is on head will be done --common part and push value from front  
 				if (t==nullptr) {
 					push_front(tmp);
-				} else {
+				} else { // if comparison pointer is not on head will be done --common part and add tmp value from the middle of ll 
 					tmp->next = t->next;
 					tmp->prev = t;
 					t->next->prev = tmp;
