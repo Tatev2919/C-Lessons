@@ -99,8 +99,7 @@ class Linkedlist{
             }
             ++length;
         }
-        void push_front(int x) {
-            Node* temp = new Node(x);
+        void push_front(Node* temp) {
             if (is_empty()) {
                 head = temp;
                 tail = temp;
@@ -193,7 +192,7 @@ class Linkedlist{
                     return pop_front();
                 }
             } else {
-   return pop_back();
+   		return pop_back();
             }
         }
         void insert(int value,int i) {
@@ -204,7 +203,7 @@ class Linkedlist{
             }
             if (i == 0) {
                 cout << "test1" << endl;
-                push_front(value);
+                push_front(add);
             }
             else if (i == length){
                 push_back(value);
@@ -229,28 +228,34 @@ class Linkedlist{
         }
 	
 	void insertion_sort() {
+		cout << "----insertion sort----" << endl; 
 		if (head == tail) {
 			return;
 		}
-
 		Node* t = nullptr;
 		for (Node* tmp = head->next;tmp!= nullptr; tmp = tmp->next){
 			t = tmp->prev;
-			
-			cout << "t->value" << t->value <<endl;
 			while (t!=nullptr && t->value > tmp->value){
 				t = t -> prev;
 			} 
-			
-			cout << " post t->value" << t->value <<endl;
 			if (t != tmp->prev){
-			//tmp->prev = t-> prev;
-			//t->prev->next = tmp;
-			//t->prev = tmp;
-			//tmp->next = t;
-			 }
+				if (tmp!= tail){
+					tmp->prev->next = tmp->next;
+					tmp->next->prev = tmp->prev;
+				} else {
+				    tail = tmp->prev;
+				    tmp->prev->next=nullptr;
+				}
+				if (t==nullptr) {
+					push_front(tmp);
+				} else {
+					tmp->next = t->next;
+					tmp->prev = t;
+					t->next->prev = tmp;
+					t->next = tmp;
+				}
+			}
 		}
-	
 	}
 };
 int main () {
@@ -260,9 +265,14 @@ int main () {
     ll.push_back(17);
     ll.push_back(16);
     ll.push_back(6);
-    //ll.push_front(2);
+    ll.push_back(12);
+    ll.push_back(28);
+    ll.push_back(150);
+    ll.push_back(7);
+    ll.push_back(2);
     ll.print(); 
     ll.insertion_sort();
+    ll.print(); 
     //Linkedlist ll1;
     //ll1.push_back(4);
     //ll1.push_back(15);
