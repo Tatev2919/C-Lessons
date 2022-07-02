@@ -1,0 +1,6 @@
+IPv4 stands for Internet Protocol version 4. It is the underlying technology that makes it possible for us to connect our devices to the web. Whenever a device accesses the Internet, it is assigned a unique, numerical IP address such as 99.48.227.227. To send data from one computer to another through the web, a data packet must be transferred across the network containing the IP addresses of both devices.
+DNS, or domain name system, is the phone book of the internet. It translates domain names that we easily remember, like bluecatnetworks.com, into IP addresses like 104.239.197.100, which are the language of the internet.
+IP (version 4) addresses are 32-bit integers that can be expressed in hexadecimal notation. The more common format, known as dotted quad or dotted decimal, is x.x.x.x, where each x can be any value between 0 and 255. For example, 192.0.2.146 is a valid IPv4 address.
+IP stands for Internet Protocol and v4 stands for Version Four (IPv4). IPv4 was the primary version brought into action for production within the ARPANET in 1983. 
+IP version four addresses are 32-bit integers which will be expressed in decimal notation. 
+Example- 192.0.2.126 could be an IPv4 address. 
