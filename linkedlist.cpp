@@ -8,23 +8,48 @@ class indexOutOfBounds{
 		string solution;
 		int index;
 		time_t time;
+		int length;
 		
-		indexOutOfBounds(string cause, string solution, int index,time_t time){
+		indexOutOfBounds(string cause, string solution, int index,time_t time,int length){
 			this->cause = cause;
 			this->solution = solution;
 			this->index= index;
 			this->time = time;
+			this->length = length;
 		}
 		
-		void print (string cause, string solution, int index,time_t time){
+		void print (){
 			cout << "cause is : " <<  cause << endl;
-			cout << " solution is: " << solution << endl;
-			cout << "index is : " << index << endl;
+			cout << "solution is: " << solution << endl;
+			cout << "index is : " << index << " while length is : " << length << endl;
 			cout << "time is : " << ctime(&time) << endl;
 		}
 
 
 };
+class exforpop{
+	public:
+		string cause;
+		string solution;
+		time_t time;
+		int length;
+		
+		exforpop(string cause, string solution,time_t time,int length){
+			this->cause = cause;
+			this->solution = solution;
+			this->time = time;
+			this->length = length;
+		}
+		
+		void print (){
+			cout << "cause is : " <<  cause << endl;
+			cout << "solution is: " << solution << endl;
+			cout << "length is : " << length << endl;
+			cout << "time is : " << ctime(&time) << endl;
+		}
+};
+
+
 class Node {
     public:
         int value;
@@ -137,7 +162,8 @@ class Linkedlist{
         }
         int pop_back(){
             if (is_empty()){
-           return -1;
+		exforpop ex("trying to get value from the end of empty ll","not to use pop for empty ll",time(0),length);
+                throw ex;
             }
             Node* t = tail;
             if (head == tail){
@@ -156,7 +182,8 @@ class Linkedlist{
         }
         int pop_front(){
             if (is_empty()){
-                return -1;
+		exforpop ex("trying to get value from the start of empty ll","not to use pop for empty ll",time(0),length);
+                throw ex;
             }
             Node* h = head;
             if (head == tail){
@@ -178,10 +205,11 @@ class Linkedlist{
                 cout<<tmp->value << endl;
             }
       }
-        int get_node(int i){
+        int operator[](int i){
             Node* tmp = head;
             if (i > length){
-                return -1;
+                indexOutOfBounds ex("index is out of scope","insert correct index less than length",i,time(0),length);
+		throw ex;
             }
             for(int j = 0;tmp!= nullptr && j != i; j++){
                 tmp = tmp->next;
@@ -192,7 +220,8 @@ class Linkedlist{
             Node* tmp = head;
             cout << length << " : length is " << endl;
             if (is_empty() || i > (length-1)){
-                return -1;
+		exforpop ex("trying to get value using specific index of empty ll","not to use pop for empty ll",time(0),length);
+                throw ex;
             }
             if (head == tail){
                 head=tail=nullptr;
@@ -230,7 +259,7 @@ class Linkedlist{
                 cout << "test1" << endl;
                 push_front(add);
             } else if (i > length) {
-                indexOutOfBounds ex("index is out of scope","insert correct index less than length",i,time(0));
+                indexOutOfBounds ex("index is out of scope","insert correct index less than length",i,time(0),length);
 		throw ex;
 	    } else if (i == length){
                 push_back(value);
@@ -292,6 +321,7 @@ class Linkedlist{
 int main () {
     Linkedlist ll;
     try{
+	ll.pop_back();
         ll.insert(4,0);
         ll.insert(15,1);
         ll.insert(17,2);
@@ -299,6 +329,9 @@ int main () {
         ll.insert(16,7);
     } catch (indexOutOfBounds ex ){
 	cout << "exception was catched" << endl;
+        ex.print();
+    } catch (exforpop ex){
+	ex.print();
     }
     ll.print(); 
     //ll.insertion_sort();
