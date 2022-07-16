@@ -1,5 +1,30 @@
 #include <iostream>
 using namespace std;
+#include<ctime>
+
+class indexOutOfBounds{
+	public:
+		string cause;
+		string solution;
+		int index;
+		time_t time;
+		
+		indexOutOfBounds(string cause, string solution, int index,time_t time){
+			this->cause = cause;
+			this->solution = solution;
+			this->index= index;
+			this->time = time;
+		}
+		
+		void print (string cause, string solution, int index,time_t time){
+			cout << "cause is : " <<  cause << endl;
+			cout << " solution is: " << solution << endl;
+			cout << "index is : " << index << endl;
+			cout << "time is : " << ctime(&time) << endl;
+		}
+
+
+};
 class Node {
     public:
         int value;
@@ -204,8 +229,10 @@ class Linkedlist{
             if (i == 0) {
                 cout << "test1" << endl;
                 push_front(add);
-            }
-            else if (i == length){
+            } else if (i > length) {
+                indexOutOfBounds ex("index is out of scope","insert correct index less than length",i,time(0));
+		throw ex;
+	    } else if (i == length){
                 push_back(value);
             } else {
                 cout << "test2: " << i << endl;
@@ -264,19 +291,18 @@ class Linkedlist{
 };
 int main () {
     Linkedlist ll;
-    ll.push_back(4);
-    ll.push_back(15);
-    ll.push_back(17);
-    ll.push_back(16);
-    ll.push_back(6);
-    ll.push_back(12);
-    ll.push_back(28);
-    ll.push_back(150);
-    ll.push_back(7);
-    ll.push_back(2);
+    try{
+        ll.insert(4,0);
+        ll.insert(15,1);
+        ll.insert(17,2);
+        ll.print(); 
+        ll.insert(16,7);
+    } catch (indexOutOfBounds ex ){
+	cout << "exception was catched" << endl;
+    }
     ll.print(); 
-    ll.insertion_sort();
-    ll.print(); 
+    //ll.insertion_sort();
+    //ll.print(); 
     //Linkedlist ll1;
     //ll1.push_back(4);
     //ll1.push_back(15);
