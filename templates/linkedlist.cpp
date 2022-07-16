@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
 #include<ctime>
-template <class gen_type>
 class indexOutOfBounds: public exception{
 	public:
 		string cause;
@@ -56,21 +55,24 @@ class exforpop : public exception{
 };
 
 
+template <class T>
 class Node {
     public:
-        gen_type value;
-        Node* prev = nullptr;
-        Node* next = nullptr;
-        Node (gen_type x) {
+        T value;
+        Node<T>* prev = nullptr;
+        Node<T>* next = nullptr;
+        Node (T x) {
             value = x;
             prev = nullptr;
             next = nullptr;
         }
 };
+
+template <class T>
 class Linkedlist{
     private:
-        Node* head = nullptr;
-        Node* tail = nullptr;
+        Node<T>* head = nullptr;
+        Node<T>* tail = nullptr;
         int length = 0;
     public:
        ~Linkedlist() {
@@ -84,35 +86,28 @@ class Linkedlist{
         }
         Linkedlist () {}
         Linkedlist (const Linkedlist& ll ) {
-                Node* h = ll.head;
+                Node<T>* h = ll.head;
                 for (int i = 0; i < ll.length ; ++i) {
                         push_back(h->value);
                         h = h ->next;
                 }
         }
          void destroy() {
-           cout << "destroy1" <<endl;
            while( head != tail ) {
                head = head->next;
-               cout<<head->value<< " dest"<< endl;
                delete head->prev;
            }
            if (head != nullptr) {
-               cout <<"head part1"<<endl;
                delete head;
            }
         }
         Linkedlist& operator=(const Linkedlist& ll){
-                cout<<"operator " <<endl;
                 if (!is_empty()){
-                    cout << "is not empty" <<endl;
                     destroy();
                     head=tail=nullptr;
                 }
 		
-                Node* h = ll.head;
-                cout << "ll.head:  " << ll.head->value <<endl;
-                cout << "ll.head:  " << ll.head->value <<endl;
+                Node<T>* h = ll.head;
                 for (int i = 0; i < ll.length ; ++i) {
                         push_back(h->value);
                         h = h ->next;
@@ -123,8 +118,8 @@ class Linkedlist{
             if (length != ll.length) {
                 return false;
             } else {
-                Node* t1 = head;
-                Node* t2 = ll.head;
+                Node<T>* t1 = head;
+                Node<T>* t2 = ll.head;
                 for (int i =0; i <length ; ++i){
                        if (t1->value != t2->value) {
                             return false;
@@ -135,16 +130,16 @@ class Linkedlist{
             }
             return true;
         }
-        bool find(gen_type x) {
-            for( Node* tmp = head;tmp!= nullptr;tmp = tmp->next){
+        bool find(T x) {
+            for( Node<T>* tmp = head;tmp!= nullptr;tmp = tmp->next){
                 if (tmp->value==x){
                     return true;
                 }
             }
             return false;
         }
-        void push_back(gen_type x) {
-            Node* temp = new Node(x);
+        void push_back(T x) {
+            Node<T>* temp = new Node<T>(x);
             if (head == nullptr) {
                 head = temp;
                 tail = temp;
@@ -155,7 +150,7 @@ class Linkedlist{
             }
             ++length;
         }
-        void push_front(Node* temp) {
+        void push_front(Node<T>* temp) {
             if (is_empty()) {
                 head = temp;
                 tail = temp;
@@ -166,53 +161,53 @@ class Linkedlist{
             }
             ++length;
         }
-        gen_type pop_back(){
+        T pop_back(){
             if (is_empty()){
 		exforpop ex("trying to get value from the end of empty ll","not to use pop for empty ll",time(0),length);
                 throw ex;
             }
-            Node* t = tail;
+            Node<T>* t = tail;
             if (head == tail){
                 head=tail=nullptr;
                 --length;
-                gen_type val = t->value;
+                T val = t->value;
                 delete t;
                 return val;
             }
             tail = tail-> prev;
             tail-> next = nullptr;
-            gen_type val = t-> value;
+            T val = t-> value;
             delete t;
             --length;
             return val;
         }
-        gen_type pop_front(){
+        T pop_front(){
             if (is_empty()){
 		exforpop ex("trying to get value from the start of empty ll","not to use pop for empty ll",time(0),length);
                 throw ex;
             }
-            Node* h = head;
+            Node<T>* h = head;
             if (head == tail){
                 head=tail=nullptr;
                 --length;
-                gen_type val = h->value;
+                T val = h->value;
                 delete h;
                 return val;
             }
             head = head-> next;
             head-> prev = nullptr;
-            gen_type val = h->value;
+            T val = h->value;
             delete h;
             --length;
             return val;
         }
         void print () {
-            for( Node* tmp = head;tmp!= nullptr;tmp = tmp->next){
+            for( Node<T>* tmp = head;tmp!= nullptr;tmp = tmp->next){
                 cout<<tmp->value << endl;
             }
       }
-        gen_type operator[](int i){
-            Node* tmp = head;
+        T operator[](int i){
+            Node<T>* tmp = head;
             if (i > length){
                 indexOutOfBounds ex("index is out of scope","insert correct index less than length",i,time(0),length);
 		throw ex;
@@ -222,9 +217,8 @@ class Linkedlist{
             }
             return tmp->value;
         }
-        gen_type pop(int i){
-            Node* tmp = head;
-            cout << length << " : length is " << endl;
+        T pop(int i){
+            Node<T>* tmp = head;
             if (is_empty() || i > (length-1)){
 		exforpop ex("trying to get value using specific index of empty ll","not to use pop for empty ll",time(0),length);
                 throw ex;
@@ -232,7 +226,7 @@ class Linkedlist{
             if (head == tail){
                 head=tail=nullptr;
                 --length;
-                gen_type val = tmp->value;
+                T val = tmp->value;
                 delete tmp;
                 return val;
             }
@@ -243,9 +237,8 @@ class Linkedlist{
                 if (tmp!=head){
                     tmp->next->prev=tmp->prev;
                     tmp->prev->next = tmp->next;
-                    cout<< tmp->value << endl;
                     --length;
-                    gen_type val = tmp -> value;
+                    T val = tmp -> value;
                     delete tmp;
                     return val;
                 } else {
@@ -255,14 +248,13 @@ class Linkedlist{
    		return pop_back();
             }
         }
-        void insert(gen_type value,int i) {
-            Node* tmp = head;
-            Node* add = new Node(value);
+        void insert(T value,int i) {
+            Node<T>* tmp = head;
+            Node<T>* add = new Node<T>(value);
             if (is_empty()){
                 head = tail = add;
             }
             if (i == 0) {
-                cout << "test1" << endl;
                 push_front(add);
             } else if (i > length) {
                 indexOutOfBounds ex("index is out of scope","insert correct index less than length",i,time(0),length);
@@ -270,7 +262,6 @@ class Linkedlist{
 	    } else if (i == length){
                 push_back(value);
             } else {
-                cout << "test2: " << i << endl;
                 for(int j = 0; j != i; ++j){
                     tmp = tmp->next;
                 }
@@ -281,7 +272,7 @@ class Linkedlist{
             }
         }
         void print_reverse () {
-            for (Node* tmp = tail;tmp!= nullptr; tmp = tmp->prev){
+            for (Node<T>* tmp = tail;tmp!= nullptr; tmp = tmp->prev){
                 cout<<tmp->value << endl;
             }
         }
@@ -294,8 +285,8 @@ class Linkedlist{
 		if (head == tail) {
 			return;
 		}
-		Node* t = nullptr;
-		for (Node* tmp = head->next;tmp!= nullptr; tmp = tmp->next){
+		Node<T>* t = nullptr;
+		for (Node<T>* tmp = head->next;tmp!= nullptr; tmp = tmp->next){
 			t = tmp->prev;
 			while (t!=nullptr && t->value > tmp->value){
 				t = t -> prev;
@@ -326,32 +317,31 @@ class Linkedlist{
 };
 int main () {
     Linkedlist<int> ll;
-        ll.insert(4,0);
-        ll.insert(15,1);
-        ll.insert(17,2);
-        ll.print(); 
-    //} catch (indexOutOfBounds ex ){
-    //    cout << "exception was catched" << endl;
-    //    cout<< ex.what();
-    //    ex.print();
-    //} catch (exforpop ex){
-    //    cout<< ex.what();
-    //    ex.print();
-    //}
+    ll.insert(40,0);
+    ll.insert(15,1);
+    ll.insert(17,2);
     ll.print(); 
     //ll.insertion_sort();
-    //ll.print(); 
-    //Linkedlist ll1;
-    //ll1.push_back(4);
-    //ll1.push_back(15);
-    //ll1.push_back(17);
-    //ll1.push_back(1);
-    //ll1.push_back(6);
-    ////ll1.push_front(2);
-    //Linkedlist ll2 = ll;
-    //cout << "Calling copy constructor . " << endl; 
-    //ll2.print();
-    //ll1 = ll;
-    //ll1.print();
+    ll.print(); 
+    Linkedlist<int>ll1;
+    ll1.push_back(4);
+    ll1.push_back(15);
+    ll1.push_back(17);
+    Linkedlist<int> ll2 = ll;
+    cout << "Calling copy constructor . " << endl; 
+    ll2.print();
+    ll1 = ll;
+    ll1.print();
+    Linkedlist<string> l;
+    try {
+	l.pop_back();
+    } catch (indexOutOfBounds ex ){
+        cout << "exception was catched" << endl;
+        cout<< ex.what();
+        ex.print();
+    } catch (exforpop ex){
+        cout<< ex.what();
+        ex.print();
+    }
     return 0;
 } 
