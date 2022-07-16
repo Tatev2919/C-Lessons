@@ -2,7 +2,7 @@
 using namespace std;
 #include<ctime>
 
-class indexOutOfBounds{
+class indexOutOfBounds: public exception{
 	public:
 		string cause;
 		string solution;
@@ -24,10 +24,13 @@ class indexOutOfBounds{
 			cout << "index is : " << index << " while length is : " << length << endl;
 			cout << "time is : " << ctime(&time) << endl;
 		}
-
+		
+		const char* what() const throw() {
+			return "index out of bounds exception";
+		}
 
 };
-class exforpop{
+class exforpop : public exception{
 	public:
 		string cause;
 		string solution;
@@ -46,6 +49,9 @@ class exforpop{
 			cout << "solution is: " << solution << endl;
 			cout << "length is : " << length << endl;
 			cout << "time is : " << ctime(&time) << endl;
+		}
+		const char* what() const throw () {
+			return "exception for pop function";
 		}
 };
 
@@ -329,8 +335,10 @@ int main () {
         ll.insert(16,7);
     } catch (indexOutOfBounds ex ){
 	cout << "exception was catched" << endl;
+        cout<< ex.what();
         ex.print();
     } catch (exforpop ex){
+        cout<< ex.what();
 	ex.print();
     }
     ll.print(); 
