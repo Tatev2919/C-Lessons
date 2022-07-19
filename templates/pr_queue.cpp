@@ -8,7 +8,7 @@ public:
     T value;
     Node<T>* prev;
     Node<T>* next;
-    Node(int x)
+    Node(T x)
     {
         this->value = x;
         prev = nullptr;
@@ -28,7 +28,8 @@ private:
         return head == nullptr;
     }
 
-    void push_back(Node<T>* temp){
+    void push_back(const T& val){
+	Node<T>* temp = new Node<T> (val);
         if (head == nullptr) {
             head = tail = temp;
         } else {
@@ -39,7 +40,8 @@ private:
         ++length;
     }
 
-    void push_front(Node<T>* temp) {
+    void push_front(const T& val) {
+	Node<T>* temp = new Node<T> (val);
         if (is_empty()) {
             head = tail = temp;
         } else {
@@ -50,22 +52,16 @@ private:
         ++length;
     }
 
-    void insert(Node<T>* add, int i) {
+    void insert(const T& val, int i) {
         auto tmp = head;
-        //Node* add = new Node(value);
-        //if (is_empty())
-        //{
-        //    head = tail = add;
-	//    cout << "add -> val" << add->value << endl;
-        //    return;
-        //}
         if (i == 0) {
-            push_front(add);
+            push_front(val);
             return;
         } else if (i == length) {
-            push_back(add);
+            push_back(val);
             return;
         } else {
+	    Node<T>* add = new Node<T> (val);
             for (int j = 0; j != i; ++j) {
                 tmp = tmp->next;
             }
@@ -143,27 +139,26 @@ public:
     //Added public push function 
     //using which you can organise the priority of queue.  
   
-    void push(int x) {
-	auto t = new Node<T>(x);
+    void push(const T& x) {
         if (is_empty()) {
-            push_front(t);
+            push_front(x);
             return;
         } 
         if (x < tail->value ) {
-    	    push_back(t);
+    	    push_back(x);
             return;
 	}
         int i = 0;
         for (auto tmp = head; tmp != nullptr; tmp = tmp->next) {
             if (x > tmp->value) {
-                insert(t, i);
+                insert(x, i);
                 return;
             }
             ++i;
         }
     }
 
-    bool find(int x) {
+    bool find(const T& x) {
         for (auto tmp = head; tmp != nullptr; tmp = tmp->next) {
             if (tmp->value == x) {
                 return true;
@@ -172,7 +167,7 @@ public:
         return false;
     }
 
-    int pop_back() {
+    T pop_back() {
         if (is_empty()) {
             return -1;
         }
@@ -180,19 +175,19 @@ public:
         if (head == tail) {
             head = tail = nullptr;
             --length;
-            int val = t->value;
+            T val = t->value;
             delete t;
             return val;
         }
         tail = tail->prev;
         tail->next = nullptr;
-        int val = t->value;
+        T val = t->value;
         delete t;
         --length;
         return val;
     }
 
-    int pop_front() {
+    T pop_front() {
         if (is_empty()) {
             return -1;
         }
@@ -200,13 +195,13 @@ public:
         if (head == tail) {
             head = tail = nullptr;
             --length;
-            int val = h->value;
+            T val = h->value;
             delete h;
             return val;
         }
         head = head->next;
         head->prev = nullptr;
-        int val = h->value;
+        T val = h->value;
         delete h;
         --length;
         return val;
@@ -218,7 +213,7 @@ public:
         }
     }
 
-    int get_node(int i) {
+    T get_node(int i) {
         auto tmp = head;
         if (i > length) {
             return -1;
@@ -229,7 +224,7 @@ public:
         return tmp->value;
     }
 
-    int pop(int i) {
+    T pop(int i) {
         auto tmp = head;
         cout << length << " : length is " << endl;
         if (is_empty() || i > (length - 1)) {
@@ -238,7 +233,7 @@ public:
         if (head == tail) {
             head = tail = nullptr;
             --length;
-            int val = tmp->value;
+            T val = tmp->value;
             delete tmp;
             return val;
         }
@@ -251,7 +246,7 @@ public:
                 tmp->prev->next = tmp->next;
                 cout << tmp->value << endl;
                 --length;
-                int val = tmp->value;
+                T val = tmp->value;
                 delete tmp;
                 return val;
             }
@@ -272,17 +267,13 @@ public:
 };
 int main()
 {
-    pr_queue<int> pq;
-    pq.push(4);
-    pq.push(15);
-    pq.push(17);
-    pq.push(5);
-    pq.push(18);
-    pq.push(7);
-    pq.push(25);
-    pq.push(11);
-    pq.push(3);
-    pq.push(19);
+    pr_queue<string> pq;
+    pq.push("hello");
+    pq.push("world");
+    pq.push("Everything");
+    pq.push("is");
+    pq.push("great");
+    pq.push("now");
     pq.print();
     pr_queue<int> pq1;
     pq1.push(1);
@@ -290,6 +281,7 @@ int main()
     pq1.push(3);
     pq1.push(4);
     pq1.push(5);
+    pq1.print();
     pr_queue<int> pq2;
     
     return 0;
