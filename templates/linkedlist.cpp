@@ -1,6 +1,7 @@
 #include <iostream>
-using namespace std;
 #include<ctime>
+using namespace std;
+
 class indexOutOfBounds: public exception{
 	public:
 		string cause;
@@ -59,8 +60,8 @@ template <class T>
 class Node {
     public:
         T value;
-        Node<T>* prev = nullptr;
-        Node<T>* next = nullptr;
+        Node<T>* prev;
+        Node<T>* next;
         Node (T x) {
             value = x;
             prev = nullptr;
@@ -86,7 +87,7 @@ class Linkedlist{
         }
         Linkedlist () {}
         Linkedlist (const Linkedlist& ll ) {
-                Node<T>* h = ll.head;
+                auto h = ll.head;
                 for (int i = 0; i < ll.length ; ++i) {
                         push_back(h->value);
                         h = h ->next;
@@ -107,7 +108,7 @@ class Linkedlist{
                     head=tail=nullptr;
                 }
 		
-                Node<T>* h = ll.head;
+                auto h = ll.head;
                 for (int i = 0; i < ll.length ; ++i) {
                         push_back(h->value);
                         h = h ->next;
@@ -118,8 +119,8 @@ class Linkedlist{
             if (length != ll.length) {
                 return false;
             } else {
-                Node<T>* t1 = head;
-                Node<T>* t2 = ll.head;
+                auto t1 = head;
+                auto t2 = ll.head;
                 for (int i =0; i <length ; ++i){
                        if (t1->value != t2->value) {
                             return false;
@@ -131,7 +132,7 @@ class Linkedlist{
             return true;
         }
         bool find(T x) {
-            for( Node<T>* tmp = head;tmp!= nullptr;tmp = tmp->next){
+            for( auto tmp = head;tmp!= nullptr;tmp = tmp->next){
                 if (tmp->value==x){
                     return true;
                 }
@@ -139,7 +140,7 @@ class Linkedlist{
             return false;
         }
         void push_back(T x) {
-            Node<T>* temp = new Node<T>(x);
+            auto temp = new Node<T>(x);
             if (head == nullptr) {
                 head = temp;
                 tail = temp;
@@ -150,7 +151,8 @@ class Linkedlist{
             }
             ++length;
         }
-        void push_front(Node<T>* temp) {
+        void push_front(T x) {
+            auto temp = new Node<T>(x);
             if (is_empty()) {
                 head = temp;
                 tail = temp;
@@ -161,12 +163,13 @@ class Linkedlist{
             }
             ++length;
         }
+
         T pop_back(){
             if (is_empty()){
 		exforpop ex("trying to get value from the end of empty ll","not to use pop for empty ll",time(0),length);
                 throw ex;
             }
-            Node<T>* t = tail;
+            auto t = tail;
             if (head == tail){
                 head=tail=nullptr;
                 --length;
@@ -186,7 +189,7 @@ class Linkedlist{
 		exforpop ex("trying to get value from the start of empty ll","not to use pop for empty ll",time(0),length);
                 throw ex;
             }
-            Node<T>* h = head;
+            auto h = head;
             if (head == tail){
                 head=tail=nullptr;
                 --length;
@@ -202,12 +205,12 @@ class Linkedlist{
             return val;
         }
         void print () {
-            for( Node<T>* tmp = head;tmp!= nullptr;tmp = tmp->next){
+            for( auto tmp = head;tmp!= nullptr;tmp = tmp->next){
                 cout<<tmp->value << endl;
             }
-      }
+        }
         T operator[](int i){
-            Node<T>* tmp = head;
+            auto tmp = head;
             if (i > length){
                 indexOutOfBounds ex("index is out of scope","insert correct index less than length",i,time(0),length);
 		throw ex;
@@ -218,7 +221,7 @@ class Linkedlist{
             return tmp->value;
         }
         T pop(int i){
-            Node<T>* tmp = head;
+            auto tmp = head;
             if (is_empty() || i > (length-1)){
 		exforpop ex("trying to get value using specific index of empty ll","not to use pop for empty ll",time(0),length);
                 throw ex;
@@ -249,13 +252,13 @@ class Linkedlist{
             }
         }
         void insert(T value,int i) {
-            Node<T>* tmp = head;
-            Node<T>* add = new Node<T>(value);
+            auto tmp = head;
+            auto add = new Node<T>(value);
             if (is_empty()){
                 head = tail = add;
             }
             if (i == 0) {
-                push_front(add);
+                push_front(value);
             } else if (i > length) {
                 indexOutOfBounds ex("index is out of scope","insert correct index less than length",i,time(0),length);
 		throw ex;
@@ -272,7 +275,7 @@ class Linkedlist{
             }
         }
         void print_reverse () {
-            for (Node<T>* tmp = tail;tmp!= nullptr; tmp = tmp->prev){
+            for (auto tmp = tail;tmp!= nullptr; tmp = tmp->prev){
                 cout<<tmp->value << endl;
             }
         }
@@ -286,7 +289,7 @@ class Linkedlist{
 			return;
 		}
 		Node<T>* t = nullptr;
-		for (Node<T>* tmp = head->next;tmp!= nullptr; tmp = tmp->next){
+		for (auto tmp = head->next;tmp!= nullptr; tmp = tmp->next){
 			t = tmp->prev;
 			while (t!=nullptr && t->value > tmp->value){
 				t = t -> prev;
