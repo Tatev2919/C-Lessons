@@ -1,6 +1,51 @@
 #include <iostream>
 using namespace std;
 
+class Specialist {
+	public:
+		string name;
+		string surname;
+		int age;
+		int languages;
+		int iq;
+	Specialist(){};        
+
+	Specialist (string name, string surname,int age, int languages,int iq) {
+		this->name = name;
+		this->surname = surname;
+		this->age = age;
+		this->languages = languages;
+		this->iq = iq;
+	}
+	
+	void print() {
+		cout << name << " : name " << endl;
+		cout << surname << " : surname" << endl;
+		cout << age << " : age " << endl;
+		cout << languages << " : languages " << endl;
+		cout << iq << " : iq " << endl; 
+	}
+};
+
+template <class T> 
+class Comparator <T> {
+        public:
+		virtual int comp(T a, T b) {};
+};
+
+class SortByAge: public Comparator<Specialist> {
+ 	public:
+		int comp(Specialist a, Specialist b) {
+			if(a.age > b.age) {
+				return 1;
+			} else if (a.age == b.age) {
+				return 0;
+			} else {
+				return -1;
+			}
+		}
+};
+
 template <class K,class V>
 class Node {
     public:
@@ -23,7 +68,7 @@ class Map{
     private:
         Node<K,V>* root = nullptr;
         int length = 0;
-    
+        Comparator* p;
 
     public:
 		bool is_empty(){
@@ -36,8 +81,8 @@ class Map{
 			}				
 		}
 
-		Map () {
-
+		Map (Comparator &p) {
+			this->p = p;
 		}
 		
 		Map (const Map& t ) {
@@ -83,16 +128,16 @@ class Map{
 		}
 		
 
-		void print(){
-			if (!is_empty()) {
-				print(root);
-			}
-		}
-		void print(bool desc) {
-			if (!is_empty()) {
-				print(root,desc);
-			}
-		}
+		//void print(){
+		//	if (!is_empty()) {
+		//		print(root);
+		//	}
+		//}
+		//void print(bool desc) {
+		//	if (!is_empty()) {
+		//		print(root,desc);
+		//	}
+		//}
 
 		bool find(K key){
 			if (!is_empty()) {
@@ -127,7 +172,7 @@ class Map{
 			//case 1: to be deleted node has no leaves
 			if (tmp->left == nullptr && tmp->right == nullptr){
 			 	auto t = tmp->parent;	
-				if (t->key > tmp->key) {
+				if (p::comp(t->key,tmp->key)==1) {
 					f = 1;
 				} 
 				delete tmp;
@@ -220,14 +265,14 @@ class Map{
  
 		bool compare (Node<K,V>* tmp1, Node<K,V>* tmp2) {
 			if ((tmp1!=nullptr&& tmp2==nullptr) || (tmp1==nullptr && tmp2!=nullptr) ) {
-				cout << "First if" << endl;
+				//cout << "First if" << endl;
 				return false;
 			}
 			if (tmp1!= nullptr && tmp2!=nullptr){
-				if(tmp1->key != tmp2->key || tmp1->value != tmp2->value) {
-					cout << "Second if" << endl;
-					cout << tmp1->key << " tmp1->key and tmp2->key " <<  tmp2->key  << endl;
-					cout << tmp1->value << " tmp1->value and tmp2->value " <<  tmp2->value << endl;
+				if((p::comp(tmp1->key,tmp2->key)==-1) || (p::comp(tmp1->value,tmp2->value)==-1)) {
+				//	cout << "Second if" << endl;
+				//	cout << tmp1->key << " tmp1->key and tmp2->key " <<  tmp2->key  << endl;
+				//	cout << tmp1->value << " tmp1->value and tmp2->value " <<  tmp2->value << endl;
 					return false;
 				} else { 
 					bool r  = compare(tmp1->left,tmp2->left);
@@ -241,22 +286,22 @@ class Map{
 
 
 		//Display binary search tree with ascending order
-		void print(Node<K,V>* tmp) {
-			if (tmp != nullptr) { 
-				print(tmp->left);
-				cout << "key: " << tmp->key << " value: " <<  tmp->value << endl;
-				print(tmp->right);
-			} 
-		}
-		//Display binary search tree with descending order	
+		//void print(Node<K,V>* tmp) {
+		//	if (tmp != nullptr) { 
+		//		print(tmp->left);
+		//		cout << "key: " << tmp->key << " value: " <<  tmp->value << endl;
+		//		print(tmp->right);
+		//	} 
+		//}
+		////Display binary search tree with descending order	
 	
-		void print(Node<K,V>* tmp, bool desc) {
-			if (tmp != nullptr) { 
-				print(tmp->right,true);
-				cout << "key: " << tmp->key << " value: " <<  tmp->value << endl;
-				print(tmp->left,true);
-			} 
-		}
+		//void print(Node<K,V>* tmp, bool desc) {
+		//	if (tmp != nullptr) { 
+		//		print(tmp->right,true);
+		//		cout << "key: " << tmp->key << " value: " <<  tmp->value << endl;
+		//		print(tmp->left,true);
+		//	} 
+		//}
 		
 		//int find_loc(K key) {
 		//	int i = 0;
@@ -283,12 +328,12 @@ class Map{
 			}
 			auto t = find_ex(key); 
 			if (t != nullptr) {
-				while(key ) {
+				while(key!=nullptr ) {
 				t->value = value;
 				return;
 				}
 			}
-			if ( key > tmp->key ) {
+			if ( (p::comp(key,tmp->key))==1 ) {
 				//Comment special:
 				//in this case tmp->value is not in managed address
 				if (tmp->right == nullptr) {	
@@ -300,7 +345,7 @@ class Map{
 				} else {
 					add(tmp->right, value, key);
 				}
-			} else if ( key < tmp->key ) {
+			} else if ( p::comp(key,tmp->key)==-1) {
 				if (tmp->left == nullptr) {
 					//cout << find_ex(key) << " key " << key << endl;
 					tmp->left=new Node<K,V>(key,value);
@@ -318,7 +363,7 @@ class Map{
 			} 
 			if (key==tmp->key) {
 				return true;
-			} else if ( key > tmp->key ) {
+			} else if ((p::comp(key,tmp->key) == 1) ) {
 				return find(tmp->right, key);
 			} else {
 				return find(tmp->left, key);
@@ -331,10 +376,10 @@ class Map{
 			if (tmp==nullptr) {
 				return nullptr;
 			}
-			if (key==tmp->key) {
+			if ( p::comp(key,tmp->key)==0) {
 				cout << "hello"<<endl;
 				return tmp;
-			} else if ( key > tmp->key ) {
+			} else if ( p::comp(key,tmp->key)==1 ) {
 				return find_ex(tmp->right, key);
 			} else {
 				return find_ex(tmp->left, key);
@@ -347,67 +392,62 @@ class Map{
 };
 
 int main () {
-	Map<int,int> b;
-	b.add(50,1);
-	b.add(30,2);
-	b.add(100,6);
+        SortByAge s;
+
+	Map<Specialist,int> b(&s);
+	b.add(1,Specialist("John","Walker",15,2,90));
+	b.add(2,Specialist("Jane","Smith",18,2,95));
+	b.add(3,Specialist("Kareem","S",35,3,120));
+	b.add(4,Specialist("Nahlu","Mohammad",12,1,75));
 	b.print();
-	b.add(190,6);
-	b.add(10,8);
-	b.add(1,3);
-	b.add(40,5);
-	b.add(42,0);
-	b.add(65,4);
-	b.add(74,-1);
-	b.print();
-	Map<int,int> b1;
-	b1.add(5,1);
-        b1.add(3,2);
-	cout << "------------our check-----------------------"	<<endl;
-	if (b!=b1) {
-		cout << "Map s are not equal" << endl;
-	} else {
-		cout << "Map s are equal" << endl;
-	}
-	cout << "----------------Print in asc order---------------" << endl;
-	b.print();
-	cout << "----------------Print in desc order-------------" << endl;
-	b.print(true);
-	b1 = b;
-	cout << "------------print copy-------------" << endl;
-	b1.print();
-	cout << "---------------calling copy constructor-----------------" << endl;
-	Map<int,int> b2 = b1;
-	b2.print();
-	cout << "---------------Compare Map s-----------------" << endl;
-	if (b2==b1) {
-		cout << "Map s are equal" << endl;
-	} else {
-		cout << "Map s aren't equal" << endl;
-	}
-	cout << "-----------------Removing part---------------" << endl;
-	cout << "Removing key 4 : case 1 has no leaves" << endl;
-	b.print();
-	b.remove(4);
-	cout << "After removing key 4 value 65 " << endl;
-	b.print();
-	cout << "-----------------Removing part---------------" << endl;
-	cout << "Removing key 0 : case 2 has one leaf" << endl;
-	b.print();
-	b.remove(0);
-	cout << "After removing key 0 value 42 " << endl;
-	b.print();
-	cout << "-----------------Removing part---------------" << endl;
-	cout << "Removing key 6 : case 3 has 2 leaves" << endl;
-	b.print();
-	b.remove(6);
-	cout << "After removing key 6 value 100 " << endl;
-	b.print();
+	//Map<int,int> b1;
+	//b1.add(5,1);
+        //b1.add(3,2);
+	//cout << "------------our check-----------------------"	<<endl;
+	//if (b!=b1) {
+	//	cout << "Map s are not equal" << endl;
+	//} else {
+	//	cout << "Map s are equal" << endl;
+	//}
+	//cout << "----------------Print in asc order---------------" << endl;
+	//b.print();
+	//cout << "----------------Print in desc order-------------" << endl;
+	//b.print(true);
+	//b1 = b;
+	//cout << "------------print copy-------------" << endl;
+	//b1.print();
+	//cout << "---------------calling copy constructor-----------------" << endl;
+	//Map<int,int> b2 = b1;
+	//b2.print();
+	//cout << "---------------Compare Map s-----------------" << endl;
+	//if (b2==b1) {
+	//	cout << "Map s are equal" << endl;
+	//} else {
+	//	cout << "Map s aren't equal" << endl;
+	//}
+	//cout << "-----------------Removing part---------------" << endl;
+	//cout << "Removing key 4 : case 1 has no leaves" << endl;
+	//b.print();
+	//b.remove(4);
+	//cout << "After removing key 4 value 65 " << endl;
+	//b.print();
+	//cout << "-----------------Removing part---------------" << endl;
+	//cout << "Removing key 0 : case 2 has one leaf" << endl;
+	//b.print();
+	//b.remove(0);
+	//cout << "After removing key 0 value 42 " << endl;
+	//b.print();
+	//cout << "-----------------Removing part---------------" << endl;
+	//cout << "Removing key 6 : case 3 has 2 leaves" << endl;
+	//b.print();
+	//b.remove(6);
+	//cout << "After removing key 6 value 100 " << endl;
+	//b.print();
  
-	if (b==b) {
-		cout << " true" << endl;
-	}
-	b = b;
+	//if (b==b) {
+	//	cout << " true" << endl;
+	//}
+	//b = b;
 
 	
 	return 0;
