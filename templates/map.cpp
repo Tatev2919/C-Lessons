@@ -1,6 +1,35 @@
 #include <iostream>
 using namespace std;
 
+class Rectangle{
+	public:
+		int width;
+		int length;
+
+	int area(){
+		return width*length;
+	}
+	int perimeter(){
+		return (width+length)*2;
+	}
+	Rectangle() {}
+
+	Rectangle(int width, int length) {
+		this->width = width;
+		this->length = length;
+	}
+
+	friend ostream& operator<<(ostream& pr, Rectangle rec){
+                pr<<"width is: " << rec.width<<endl;
+                pr<<"length is: " << rec.length<<endl;
+                pr<<"area is: " << rec.area()<<endl;
+                pr<<"perimeter is: " << rec.perimeter()<<endl;
+                return pr;
+	}
+};
+
+
+
 class Specialist {
 	public:
 		string name;
@@ -8,7 +37,7 @@ class Specialist {
 		int age;
 		int languages;
 		int iq;
-	Specialist(){};        
+	Specialist(){}        
 
 	Specialist (string name, string surname,int age, int languages,int iq) {
 		this->name = name;
@@ -26,12 +55,11 @@ class Specialist {
 	//	}
 	//}
 	friend ostream& operator<<(ostream& pr, Specialist spec){
-                cout<<"---operator<< call for Specialist object---"<<endl;
-                pr<<spec.name<<endl;
-                pr<<spec.surname<<endl;
-                pr<<spec.age<<endl;
-                pr<<spec.languages<<endl;
-                pr<<spec.iq<<endl;
+                pr<<"name is: " << spec.name<<endl;
+                pr<<"surname is: " << spec.surname<<endl;
+                pr<<"age is: " << spec.age<<endl;
+                pr<<"languages is: " << spec.languages<<endl;
+                pr<<"iq is: " << spec.iq<<endl;
                 return pr;
         }	
 
@@ -65,6 +93,44 @@ class SortByAge: public Comparator<Specialist> {
 		}
 };
 
+class SortByWidth: public Comparator<Rectangle>{
+	public:
+		int comp(Rectangle a, Rectangle b) {
+                        if(a.width > b.width) {
+                                return 1;
+                        } else if (a.width == b.width) {
+                                return 0;
+                        } else {
+                                return -1;
+                        }
+                }
+};
+
+class SortByLength: public Comparator<Rectangle>{
+	public:
+		int comp(Rectangle a, Rectangle b) {
+                        if(a.length > b.length) {
+                                return 1;
+                        } else if (a.length == b.length) {
+                                return 0;
+                        } else {
+                                return -1;
+                        }
+                }
+};
+
+class SortByArea: public Comparator<Rectangle>{
+	public:
+		int comp(Rectangle a, Rectangle b) {
+                        if(a.area() > b.area()) {
+                                return 1;
+                        } else if (a.area() == b.area()) {
+                                return 0;
+                        } else {
+                                return -1;
+                        }
+                }
+};
 template <class K,class V>
 class Node {
     public:
@@ -302,7 +368,9 @@ class Map{
 		void print(Node<K,V>* tmp) {
 			if (tmp != nullptr) { 
 				print(tmp->left);
-				cout << "key: " << tmp->key << "value: " <<  tmp->value << endl;
+				cout << "key is : "<<endl;
+                                cout << tmp->key << endl;
+                                cout << "value is : " <<  tmp->value << endl;
 				print(tmp->right);
 			} 
 		}
@@ -313,7 +381,6 @@ class Map{
 			
 			if (root == nullptr){
 				length++;
-				//cout << "root is nullptr" << endl;
 				root = new Node<K,V>(key,value);
 				return;
 			}
@@ -366,7 +433,6 @@ class Map{
 				return nullptr;
 			}
 			if ( p->comp(key,tmp->key)==0) {
-				cout << "hello"<<endl;
 				return tmp;
 			} else if ( p->comp(key,tmp->key)==1 ) {
 				return find_ex(tmp->right, key);
@@ -425,18 +491,8 @@ int main () {
 	cout << "Removing key 4 : case 1 has no leaves" << endl;
 	b.print();
 	b.remove(Specialist("John","Walker",15,2,90));
-//	cout << "After removing key 4 value 65 " << endl;
-//	b.print();
-//	cout << "-----------------Removing part---------------" << endl;
-//	cout << "Removing key 0 : case 2 has one leaf" << endl;
-//	b.print();
-//	b.remove(0);
-//	cout << "After removing key 0 value 42 " << endl;
-//	b.print();
-//	cout << "-----------------Removing part---------------" << endl;
-//	cout << "Removing key 6 : case 3 has 2 leaves" << endl;
-//	b.print();
-//	b.remove(6);
+	b.print();
+     
 	//cout << "After removing key 6 value 100 " << endl;
 	//b.print();
  
@@ -444,7 +500,24 @@ int main () {
 	//	cout << " true" << endl;
 	//}
 	//b = b;
+	cout << "Rectangle SortByWidth---" << endl; 
+        SortByWidth w;
 
+	Map<Rectangle,int> r(&w);
+	r.add(2,Rectangle(15,10));
+	r.add(1,Rectangle(18,10));
+	r.add(3,Rectangle(10,2));
+	r.add(4,Rectangle(11,-1));
+	r.print();
+	cout << "Rectangle SortByLength---" << endl; 
+        SortByLength l;
+
+	Map<Rectangle,int> r1(&l);
+	r1.add(15,Rectangle(15,10));
+	r1.add(1,Rectangle(18,10));
+	r1.add(3,Rectangle(10,2));
+	r1.add(4,Rectangle(11,-1));
+	r1.print();
 	
 	return 0;
 }
