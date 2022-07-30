@@ -63,13 +63,6 @@ class Specialist {
                 return pr;
         }	
 
-	void print() {
-		cout << name << " : name " << endl;
-		cout << surname << " : surname" << endl;
-		cout << age << " : age " << endl;
-		cout << languages << " : languages " << endl;
-		cout << iq << " : iq " << endl; 
-	}
 };
 
 template <class T> 
@@ -385,11 +378,7 @@ class Map{
 				return;
 			}
 			auto t = find_ex(key); 
-			if (t != nullptr) {
-				t->value = value;
-				return;
-			}
-			if ( (p->comp(key,tmp->key))==1 ) {
+			if ( (p->comp(key,tmp->key))>=0 ) {
 				//Comment special:
 				//in this case tmp->value is not in managed address
 				if (tmp->right == nullptr) {	
