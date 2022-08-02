@@ -25,13 +25,27 @@ class Income{
                 this->fromEducation= t.fromEducation;
 		this->fromConsulting = t.fromConsulting;
 	}
-	double sum() const{
+	double sum ()const {
 		return (this->fromShop+this->fromTenders+this->fromApps+this->fromEducation+this->fromConsulting);
+	}
+	operator bool() {
+		return this->sum() >0;
+	}
+	operator double() {
+		return this->sum();
+	}
+	operator int() {
+		return (int)(this->sum());
+	}
+	
+	operator char() {
+		return (char)(this->sum()/100);
 	}
 
 	bool operator==(const Income& t) {
 		return ((this->fromShop==t.fromShop)&& (this->fromTenders==t.fromTenders)&& (this->fromApps == t.fromApps) && (this->fromEducation==t.fromEducation) && (this->fromConsulting== t.fromConsulting)); 
 	}
+	
 
 	bool operator!=(const Income& t) {
 		return !(*this==t); 
@@ -63,7 +77,7 @@ class Income{
 		
 		return temp; 
 	}
-	const Income operator*=(const Income& t) {
+	const Income& operator*=(const Income& t) {
 	//	return (*this+t);
 		this->fromShop *= t.fromShop;
 		this->fromTenders *= t.fromTenders;
@@ -83,7 +97,7 @@ class Income{
 		
 		return temp; 
 	}
-	const Income operator/=(const Income& t) {
+	const Income& operator/=(const Income& t) {
 	//	return (*this+t);
 		this->fromShop /= t.fromShop;
 		this->fromTenders /= t.fromTenders;
@@ -103,7 +117,7 @@ class Income{
 		
 		return temp; 
 	}
-	const Income operator+=(const Income& t) {
+	const Income& operator+=(const Income& t) {
 	//	return (*this+t);
 		this->fromShop += t.fromShop;
 		this->fromTenders += t.fromTenders;
@@ -112,7 +126,7 @@ class Income{
 		this->fromConsulting += t.fromConsulting;
 		return *this;
 	}
-	const Income operator++() {
+	const Income& operator++() {
 	//	return (*this+t);
 		this->fromShop++;
 		this->fromTenders++;
@@ -133,6 +147,27 @@ class Income{
 		//cout<< "Temp is ----------" <<endl;
 		return temp;
 	}
+	const Income& operator--() {
+	//	return (*this+t);
+		this->fromShop--;
+		this->fromTenders--;
+		this->fromApps--;
+                this->fromEducation--;
+		this->fromConsulting--;
+		return *this;
+	}
+	const Income operator--( int ch) {
+	//	return (*this+t);
+                Income temp = *this;
+		this->fromShop--;
+		this->fromTenders--;
+		this->fromApps--;
+                this->fromEducation--;
+		this->fromConsulting--;
+                //temp.print();
+		//cout<< "Temp is ----------" <<endl;
+		return temp;
+	}
 	const Income operator-(const Income& t) {
 		Income temp;
 		temp.fromShop = this->fromShop - t.fromShop;
@@ -143,7 +178,7 @@ class Income{
 		
 		return temp; 
 	}
-	const Income operator-=(const Income& t) {
+	const Income& operator-=(const Income& t) {
 	//	return (*this-t);
 		this->fromShop -= t.fromShop;
 		this->fromTenders -= t.fromTenders;
@@ -153,12 +188,13 @@ class Income{
 		return *this;
 	}
 
-	void print () {
-		cout <<"fromShop: " << fromShop << endl;
-		cout << "fromTenders: " << fromTenders<<endl;
-		cout << "fromApps: " <<  fromApps << endl;
-                cout << "fromEducation: "<<  fromEducation << endl;
-		cout << "fromConsulting: " << fromConsulting << endl;
+	friend ostream& operator<<(ostream& pr, Income i){
+		pr <<"fromShop: " << i.fromShop << endl;
+		pr << "fromTenders: " << i.fromTenders<<endl;
+		pr << "fromApps: " <<  i.fromApps << endl;
+                pr << "fromEducation: "<<  i.fromEducation << endl;
+		pr << "fromConsulting: " << i.fromConsulting << endl;
+                return pr;
 	}
 	
 };
@@ -167,7 +203,7 @@ class Income{
 int main() {
 	Income i(100,250,300,600,470);	
 	Income i1(101,250,300,600,470);	
-	i.print();
+	cout << i;
         if (i==i1){
 		cout << "equal" << endl;
 	} else {
@@ -185,28 +221,37 @@ int main() {
 	}
 	cout << "Mult value is :" << endl;
 	Income k = i * i1;
-	k.print();
+        cout <<k;
 	cout << "------------------- += value is :" << endl;
 	i+=i1;
-	i.print();
+	cout << i;
 	cout << "-------------------- *= value is :" << endl;
 	i*=i1;
-	i.print();
+	cout << i;
 	cout << "---------------------- /= value is :" << endl;
 	i/=i1;
-	i.print();
+	cout << i;
 	cout << "------------------------ -= value is :" << endl;
 	i-=i1;
-	i.print();
+	cout << i;
 	cout << "------------------------ prefix ++ value is :" << endl;
 	Income ch = i++;
-	ch.print();
+	cout << ch;
         cout << "------------------------------------- i value is : " << endl;
-	i.print();
+	cout << i;
 	cout << "------------------------ postfix ++ value is :" << endl;
 	Income m = ++i;
-	m.print();
+	cout << m;
         cout << "---------------------------------- original value is : " << endl;
-	i.print();
+	cout << i;
+	cout << "------------------------ postfix ++ value is :" << endl;
+	if (i) {
+		cout <<"bool true"<< endl;
+		cout << (int)i << endl;
+		cout << (double)i << endl;
+		cout << (char)i << endl;
+	} else {
+		cout <<"bool false"<< endl;
+	} 
 	return 0;
 }
