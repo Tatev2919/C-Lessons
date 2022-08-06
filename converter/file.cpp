@@ -15,13 +15,18 @@ int main(){
 
 	fread(m,1,s,fr);
 	fclose(fr);
+	FILE* fw = fopen("res.txt","w");
+
+	
 	unsigned short res;
 	for (int i = 0;i < s; ++i) {
 		if (m[i] >= 0 && m[i] <=127) {
 			res=m[i];	
                 	cout << "1 bytes" << endl;
+			unsigned short const write_res = res;
+			fwrite(write_res,2,1, fw);
         	}
-        	if (m[i] >= 192 && m[i]<= 223 ){
+        	else if(m[i] >= 192 && m[i]<= 223 ){
 			unsigned short k  =  (m[i]&0b00011111)<<6;
                 	unsigned short k1 =  (m[i+1]&0b00111111);
 			res = k|k1;
@@ -33,6 +38,7 @@ int main(){
 			cout << a << " res bitset" << endl;
 			cout << b << " m[i] bitset" << endl;
 			cout << c << " m[i+1] bitset" << endl;
+			fwrite(res,2,1 , fw);
 			++i;
         	} 
 		else if (m[i] >=224 && m[i] <=239 ) {
@@ -49,6 +55,7 @@ int main(){
 			cout << b << " m[i] bitset" << endl;
 			cout << c << " m[i+1] bitset" << endl;
 			cout << d << " m[i+2] bitset" << endl;
+			fwrite(res,2,1, fw);
 			i = i+2;
         	} 
 		//else if  (m[i] >= 240 && m[i] <= 247 ) {
@@ -60,6 +67,8 @@ int main(){
                 //	cout << "4 bytes" << endl;
         	//}
 	}
+        fclose(fr);
+        fclose(fw);
 	return 0;
 }
 
