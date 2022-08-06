@@ -37,7 +37,7 @@ int main(){
         	} 
 		else if (m[i] >=224 && m[i] <=239 ) {
 			unsigned short k =   (m[i]&0b00001111) <<12;
-                	unsigned short k1 = (m[i+1]&0b00111111)<<4;
+                	unsigned short k1 = (m[i+1]&0b00111111)<<6;
                 	unsigned short k2 = (m[i+2]&0b00111111);
 			res = k|k1|k2;
 			bitset<16> a = res;
@@ -49,6 +49,7 @@ int main(){
 			cout << b << " m[i] bitset" << endl;
 			cout << c << " m[i+1] bitset" << endl;
 			cout << d << " m[i+2] bitset" << endl;
+			i = i+2;
         	} 
 		//else if  (m[i] >= 240 && m[i] <= 247 ) {
 		//	unsigned short k =   m[i]&0b00000000000000000000000000111111;

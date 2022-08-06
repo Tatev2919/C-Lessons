@@ -1,0 +1,146 @@
+71 size is
+1 bytes
+1 bytes
+1 bytes
+1 bytes
+1 bytes
+1 bytes
+1 bytes
+1 bytes
+1 bytes
+1 bytes
+1 bytes
+1 bytes
+1 bytes
+1 bytes
+2 bytes 212
+res1330
+0000010100110010 res bitset
+11010100 m[i] bitset
+10110010 m[i+1] bitset
+2 bytes 213
+res1377
+0000010101100001 res bitset
+11010101 m[i] bitset
+10100001 m[i+1] bitset
+2 bytes 214
+res1408
+0000010110000000 res bitset
+11010110 m[i] bitset
+10000000 m[i+1] bitset
+2 bytes 214
+res1415
+0000010110000111 res bitset
+11010110 m[i] bitset
+10000111 m[i+1] bitset
+1 bytes
+2 bytes 213
+res1344
+0000010101000000 res bitset
+11010101 m[i] bitset
+10000000 m[i+1] bitset
+2 bytes 213
+res1377
+0000010101100001 res bitset
+11010101 m[i] bitset
+10100001 m[i+1] bitset
+2 bytes 213
+res1397
+0000010101110101 res bitset
+11010101 m[i] bitset
+10110101 m[i+1] bitset
+2 bytes 213
+res1377
+0000010101100001 res bitset
+11010101 m[i] bitset
+10100001 m[i+1] bitset
+2 bytes 213
+res1405
+0000010101111101 res bitset
+11010101 m[i] bitset
+10111101 m[i+1] bitset
+2 bytes 213
+res1407
+0000010101111111 res bitset
+11010101 m[i] bitset
+10111111 m[i+1] bitset
+2 bytes 213
+res1377
+0000010101100001 res bitset
+11010101 m[i] bitset
+10100001 m[i+1] bitset
+2 bytes 213
+res1398
+0000010101110110 res bitset
+11010101 m[i] bitset
+10110110 m[i+1] bitset
+1 bytes
+2 bytes 208
+res1057
+0000010000100001 res bitset
+11010000 m[i] bitset
+10100001 m[i+1] bitset
+2 bytes 208
+res1083
+0000010000111011 res bitset
+11010000 m[i] bitset
+10111011 m[i+1] bitset
+2 bytes 208
+res1072
+0000010000110000 res bitset
+11010000 m[i] bitset
+10110000 m[i+1] bitset
+2 bytes 208
+res1074
+0000010000110010 res bitset
+11010000 m[i] bitset
+10110010 m[i+1] bitset
+2 bytes 208
+res1072
+0000010000110000 res bitset
+11010000 m[i] bitset
+10110000 m[i+1] bitset
+1 bytes
+2 bytes 208
+res1040
+0000010000010000 res bitset
+11010000 m[i] bitset
+10010000 m[i+1] bitset
+2 bytes 209
+res1088
+0000010001000000 res bitset
+11010001 m[i] bitset
+10000000 m[i+1] bitset
+2 bytes 208
+res1084
+0000010000111100 res bitset
+11010000 m[i] bitset
+10111100 m[i+1] bitset
+2 bytes 208
+res1077
+0000010000110101 res bitset
+11010000 m[i] bitset
+10110101 m[i+1] bitset
+2 bytes 208
+res1085
+0000010000111101 res bitset
+11010000 m[i] bitset
+10111101 m[i+1] bitset
+2 bytes 208
+res1080
+0000010000111000 res bitset
+11010000 m[i] bitset
+10111000 m[i+1] bitset
+2 bytes 209
+res1103
+0000010001001111 res bitset
+11010001 m[i] bitset
+10001111 m[i+1] bitset
+1 bytes
+1 bytes
+3 bytes
+0000001101101100 res bitset
+11100000 m[i] bitset
+10110110 m[i+1] bitset
+10001100 m[i+2] bitset
+1 bytes
