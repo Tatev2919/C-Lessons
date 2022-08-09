@@ -19,21 +19,26 @@ int main(){
 
 	
 	unsigned short res_2 = 0b1100000010000000;
-	unsigned char  res_1;
 	unsigned int   res_3;
-	unsigned short const big_endian = 0xfeff;
-        fwrite(&big_endian,2,1, fw);	
-	for (int i = 0;i < s; ++i) {
+	//unsigned short const big_endian = 0xfeff;
+        //fwrite(&big_endian,2,1, fw);	
+	for (int i = 2;i < s; i+=2) {
 		if (m[i] >= 0 && m[i] <=127) {
-			res_1=m[i];	
                 	cout << "1 bytes" << endl;
-			fwrite(&res_1,2,1, fw);
+			fwrite(&m[i],2,1, fw);
         	}
         	else if(m[i] > 127 && m[i]<= 2047 ){
 			unsigned short k   =  (m[i]&0b00111111);
 			unsigned short k1  =  (m[i]&0b11000000)<<2;
-			unsigned short k2  =  (m[i+1]&0b00000111)<<7;
-			res_2 = res_2|k|k1|k2;
+                        unsigned short k2  = 0;
+			if (m[i] > 255 ) {
+                                cout << "world " << endl;
+				k2  =  (m[i+1]&0b00000111)<<9;
+			        res_2 = res_2|k|k1|k2;
+			} else {
+                                cout << "Hello there "<< endl;
+                        	res_2 = k|k1|0b1100000010000000;
+                        }
                 	cout << "2 bytes "  << (unsigned int) m[i]<< endl;
                 	//cout << "res"  << (unsigned int) res << endl;
 			bitset<16> a = res_2;
@@ -49,7 +54,6 @@ int main(){
 			cout << in2 << " k1 bitset" << endl;
 			cout << in3 << " k2 bitset" << endl;
 			fwrite(&res_2,2,1 , fw);
-			++i;
         	} 
 		//else if (m[i] >=224 && m[i] <=239 ) {
 		//	unsigned short k =   (m[i]&0b00001111) <<12;
