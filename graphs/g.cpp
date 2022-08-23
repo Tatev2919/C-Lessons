@@ -37,16 +37,17 @@ int main() {
         
         string names [9] = {"Yerevan","Ashtarak","Gyumri","Artashat","Yeghvard","Talin", "Aparan", "Abovyan","Oshakan"}; 
         for(int i = 0; i < 9; i++){
+                cout << i << ": ";
                 for(int j = 0; j < 9; j++){
                 	cout << x[i][j] << "  ";
                 } 
                 cout << endl;
 	}
         for(int i = 0; i < 9; i++){
+                cout << names[i] << " ---- > " << endl; 
                 for(int j = 0; j < 9; j++){
-                	//cout << x[i][j] << "  ";
                         if (x[i][j]==1) {
-                	     cout << names[i] << " ---- > " << names[j]<<endl;
+                	     cout << names[j]<<endl;
                         }
                 } 
                 cout << endl;
