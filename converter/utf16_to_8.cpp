@@ -23,18 +23,54 @@ char validation(char** argv) {
         return -1;
 }
 
-void conv_utf8_16 (size_t s, FILE* fw, unsigned char* m ) {
+void conv_utf16_8 ( size_t s, FILE* fw, unsigned char* m ) {
+	unsigned short res = 0;
+	unsigned int   res1;
+	for (int i = 0;i < s; ++i) {
+	       	if (m[i] >= 0 && m[i] <=127) {
+                               unsigned char r = m[i];
+	       		fwrite(&r,1,1, fw);
+                       	cout << "1 bytes " << (unsigned short) m[i] << endl;
+               	}
+        	else if(m[i] > 127 && m[i]<= 2047 ){
+                	cout << "2 bytes " << (unsigned short) m[i] << endl;
+			unsigned short k  =  ((m[i]&0b0000000000111111)|0b0000000010000000)<<8;
+                	unsigned short k1 =  (((m[i]&0b0000011111000000)<<2)|0b1100000000000000)>>8;
+			res = k|k1;
+                        
+                        cout << "---------------------------------------------------------" << endl;
+                	cout << "2 bytes " << (unsigned short) m[i] << endl;
+                	cout << "res"      << (unsigned short) res << endl;
+			bitset<16> a = res;
+			bitset<16>  b = m[i];
+			cout << a << " res bitset" << endl;
+			cout << b << " m[i] bitset" << endl;
+			fwrite(&res, 2, 1 , fw);
+        	} 
+	       
+         }
+
+}
+
+void conv_utf8_16 (string t, size_t s, FILE* fw, unsigned char* m ) {
         unsigned short res;
+        unsigned char res1;
 	for (int i = 0;i < s; ++i) {
 		if (m[i] >= 0 && m[i] <=127) {
-			res=m[i];	
                 	cout << "1 bytes" << endl;
-			fwrite(&res,2,1, fw);
+			bitset<8> b = m[i];
+                        unsigned char r = m[i];
+	       		fwrite(&r,1,1, fw);
+			cout << b << " m[i] bitset" << endl;
+			//fwrite(&m[i],1,1, fw);
         	}
         	else if(m[i] >= 192 && m[i]<= 223 ){
-			unsigned short k  =  (m[i]&0b00011111)<<6;
-                	unsigned short k1 =  (m[i+1]&0b00111111);
-			res = k|k1;
+			unsigned char k1 =  (  m[i]&0b00000011)<<6;
+			unsigned char k2 =  (  m[i]&0b00011100)>>2;
+                	unsigned char k3 =  (m[i+1]&0b00111111);
+                        res1 = k1|k3;
+			fwrite(&k2 ,1,1, fw);
+			fwrite(&res1 ,1,1, fw);
                 	cout << "2 bytes " <<(unsigned int) m[i] << endl;
                 	cout << "res"  << (unsigned int) res << endl;
 			bitset<16> a = res;
@@ -43,25 +79,7 @@ void conv_utf8_16 (size_t s, FILE* fw, unsigned char* m ) {
 			cout << a << " res bitset" << endl;
 			cout << b << " m[i] bitset" << endl;
 			cout << c << " m[i+1] bitset" << endl;
-			fwrite(&res,2,1 , fw);
 			++i;
-        	} 
-		else if (m[i] >=224 && m[i] <=239 ) {
-			unsigned short k =   (m[i]&0b00001111) <<12;
-                	unsigned short k1 = (m[i+1]&0b00111111)<<6;
-                	unsigned short k2 = (m[i+2]&0b00111111);
-			res = k|k1|k2;
-			bitset<16> a = res;
-			bitset<8> b = m[i];
-			bitset<8> c = m[i+1];
-			bitset<8> d = m[i+2];
-                	cout << "3 bytes" << endl;
-			cout << a << " res bitset" << endl;
-			cout << b << " m[i] bitset" << endl;
-			cout << c << " m[i+1] bitset" << endl;
-			cout << d << " m[i+2] bitset" << endl;
-			fwrite(&res,2,1, fw);
-			i = i+2;
         	} 
 	}
 
@@ -104,12 +122,16 @@ int main(int argc, char **argv){
         if (validation(argv)==0){
 	        unsigned short const big_endian = 0xfffe;
                 fwrite(&big_endian,2,1, fw);
-                conv_utf8_16(s,fw,m); 
+                conv_utf8_16("be",s,fw,m); 
         } else if (validation(argv)==1) {
 	        unsigned short const little_endian = 0xfeff;
                 fwrite(&little_endian,2,1, fw);
-                conv_utf8_16(s,fw,m); 
+                conv_utf8_16("le",s,fw,m); 
+        } else if (validation(argv)==2) {
+                conv_utf16_8(s,fw,m); 
         }
+        //Closing source file which have been opened
+	fclose(fw);
 
 
 
