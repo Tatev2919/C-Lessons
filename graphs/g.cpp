@@ -254,6 +254,7 @@ int main() {
         string names [9] = {"Yerevan","Ashtarak","Gyumri","Artashat","Yeghvard","Talin", "Aparan", "Abovyan","Oshakan"}; 
         int gagatner[9]  = {INT_MAX,INT_MAX,0,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX};
         int checked[9]   = {0,0,0,0,0,0,0,0,0};
+        int opt_way[9]   = {-1,-1,-1,-1,-1,-1,-1,-1,-1};
  
         for(int i = 0; i < 9; i++){
                 cout << i << ": ";
@@ -275,6 +276,7 @@ int main() {
                                 cout << "weight is more than 0 " << x[ind][i]<< endl;
                                 if (gagatner[i]> (x[ind][i]+gagatner[ind])) { 
 				    gagatner[i] = (x[ind][i]+gagatner[ind]);
+                                    opt_way[i] = ind;
                                 } 
                                 if (ind!= dest) {
                                     cout << "index is not dest" << ind << "  " << dest <<"   " << endl;
@@ -297,5 +299,17 @@ int main() {
         for(int i = 0; i < 9; i++){
                 cout << i <<" : " << names[i] << endl;
         }
+        cout << "optimal way array"  << endl;
+        for(int i = 0; i < 9; i++){
+                cout << i <<" : " << opt_way[i] << endl;
+        }
+        cout << "optimal way for my map is: "  << endl;
+        int index = dest;
+        int start = 2;
+        while(index!=start) {
+		cout << names[index] << " : ";
+                index = opt_way[index]; 
+        } 
+        cout << names[start] << endl;
 	return 0;
 }
