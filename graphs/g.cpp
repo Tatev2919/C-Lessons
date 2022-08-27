@@ -275,13 +275,18 @@ int main() {
                                 cout << "weight is more than 0 " << x[ind][i]<< endl;
                                 if (gagatner[i]> (x[ind][i]+gagatner[ind])) { 
 				    gagatner[i] = (x[ind][i]+gagatner[ind]);
+                                } 
+                                if (ind!= dest) {
+                                    cout << "index is not dest" << ind << "  " << dest <<"   " << endl;
+                                    pq.push(i,gagatner[i]); 
                                 }
-                                pq.push(i,gagatner[i]);
 		        } 
                 }
-                checked[ind]=1; 
+                checked[ind]=1;
                 pq.pop_back();
-                ind = pq.get_tail()->key;
+                if (ind!=dest) {
+                    ind = pq.get_tail()->key;
+                }
                 cout << "index is : " <<ind << endl;
         }
 
