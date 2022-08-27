@@ -15,7 +15,6 @@ class Node {
             next = nullptr;
         }
 };
-
 class pr_queue{
     private:
         Node* head = nullptr;
@@ -31,7 +30,7 @@ class pr_queue{
 	    return nullptr;
 	}
 	
-        void push_back(Node* temp) {
+        void push_back(Node* temp, int k) {
 		    if (head == nullptr) {
 			head = temp;
 			tail = temp;
@@ -42,14 +41,16 @@ class pr_queue{
 		    }
 		    ++length;
         }
-        void push_front(Node* temp) {
+        void push_front(Node* temp, int k) {
 		if (is_empty()) {
 		    head = temp;
 		    tail = temp;
 		} else {
+		    //if (!find(k)) {
 			temp->next = head;
 			head-> prev = temp;
 			head = temp;
+		    //}
 		
 		} 
 		++length;
@@ -71,7 +72,7 @@ class pr_queue{
         pr_queue (const pr_queue& ll ) {
                 Node* h = ll.head;
                 for (int i = 0; i < length ; ++i) {
-                        push_back(h);
+                        push_back(h,h->key);
                         h = h ->next;
 		}
 	}
@@ -81,7 +82,7 @@ class pr_queue{
 		Node* h = ll.head;
                 for (int i = 0; i < length ; ++i) {
                         h = h ->next;
-                        push_back(h);
+                        push_back(h,h->key);
                 }
 		return *this;
 	}
@@ -112,11 +113,11 @@ class pr_queue{
 		    return;
 		}
 		if (value > head->value) {
-		    push_front(t);
+		    push_front(t,key);
 		    return;
 		}
 		else if (value < tail->value){
-		    push_back(t);
+		    push_back(t,key);
 		    return;
 		} else {
 		    Node* tmp = head;
@@ -132,9 +133,7 @@ class pr_queue{
 		    tmp->prev = t;
 		}
 	    } else {
-                if (find(key)->value >value){
-		    find(key)->value = value;
-                }
+		find(key)->value = value;
 	    }
         }
 
@@ -232,17 +231,16 @@ class pr_queue{
         bool is_empty() {
             return head == nullptr;
         }
-
-        Node* get_head(){
-            return head;
+       
+        Node* get_tail(){
+		return tail;
         }
 };
 
-
 int main() {
 	int x [9][9]{
-            {5,0,0,0,0,0,45,0,15},
             {0,5,0,0,0,0,0,12,0},
+            {5,0,0,0,0,0,45,0,15},
             {0,0,0,20,0,60,0 ,0,0},
             {0,0,20,0,60,0,40,0,0},
             {0,0,0,60,0,0,0,30,0},
@@ -254,8 +252,9 @@ int main() {
         
          
         string names [9] = {"Yerevan","Ashtarak","Gyumri","Artashat","Yeghvard","Talin", "Aparan", "Abovyan","Oshakan"}; 
-        int gagatner[9] =  {INT_MAX,INT_MAX,0,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX};
-         
+        int gagatner[9]  = {INT_MAX,INT_MAX,0,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX};
+        int checked[9]   = {0,0,0,0,0,0,0,0,0};
+ 
         for(int i = 0; i < 9; i++){
                 cout << i << ": ";
                 for(int j = 0; j < 9; j++){
@@ -272,15 +271,18 @@ int main() {
         int dest = 0;
         while (pq.is_empty()==0){
 		for (int i =0; i<9; ++i){
- 			if (x[ind][i] >= 0) {
+ 			if (x[ind][i] > 0 && (!checked[i])) {
+                                cout << "weight is more than 0 " << x[ind][i]<< endl;
                                 if (gagatner[i]> (x[ind][i]+gagatner[ind])) { 
 				    gagatner[i] = (x[ind][i]+gagatner[ind]);
                                 }
                                 pq.push(i,gagatner[i]);
 		        } 
                 }
-                pq.pop(ind);
-                ind = pq.get_head()->key; 
+                checked[ind]=1; 
+                pq.pop_back();
+                ind = pq.get_tail()->key;
+                cout << "index is : " <<ind << endl;
         }
 
         pq.print(); 
