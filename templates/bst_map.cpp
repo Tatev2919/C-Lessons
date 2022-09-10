@@ -65,65 +65,6 @@ class Specialist {
 
 };
 
-template <class T> 
-class Comparator {
-        public:
-		virtual int comp(T a, T b) {
-			return -77;
-		};
-};
-
-class SortByAge: public Comparator<Specialist> {
- 	public:
-		int comp(Specialist a, Specialist b) {
-			if(a.age > b.age) {
-				return 1;
-			} else if (a.age == b.age) {
-				return 0;
-			} else {
-				return -1;
-			}
-		}
-};
-
-class SortByWidth: public Comparator<Rectangle>{
-	public:
-		int comp(Rectangle a, Rectangle b) {
-                        if(a.width > b.width) {
-                                return 1;
-                        } else if (a.width == b.width) {
-                                return 0;
-                        } else {
-                                return -1;
-                        }
-                }
-};
-
-class SortByLength: public Comparator<Rectangle>{
-	public:
-		int comp(Rectangle a, Rectangle b) {
-                        if(a.length > b.length) {
-                                return 1;
-                        } else if (a.length == b.length) {
-                                return 0;
-                        } else {
-                                return -1;
-                        }
-                }
-};
-
-class SortByArea: public Comparator<Rectangle>{
-	public:
-		int comp(Rectangle a, Rectangle b) {
-                        if(a.area() > b.area()) {
-                                return 1;
-                        } else if (a.area() == b.area()) {
-                                return 0;
-                        } else {
-                                return -1;
-                        }
-                }
-};
 template <class K,class V>
 class Node {
     public:
@@ -146,7 +87,7 @@ class Map{
     private:
         Node<K,V>* root = nullptr;
         int length = 0;
-        bool(* comp)(K a, K b);
+        int(* comp)(const K& a, const K& b);
 
     public:
 		bool is_empty(){
@@ -159,11 +100,11 @@ class Map{
 			}				
 		}
 
-		Map (bool (* x)(K a, K b) ) {
+		Map (int (* x)(const K& a,const K& b) ) {
                         comp = x;
 		}
 		
-		Map (const Map& t, bool (* x)(K a, K b)  ) {
+		Map (const Map& t, int (* x)(const K& a,const K& b)  ) {
 			cout << "called copy constructor" << endl; 
                         comp = x;
 			cp(t.root);       	
@@ -435,16 +376,27 @@ class Map{
 	
 };
 
+int comp( const Specialist& a,const Specialist& b) {
+	if(a.age > b.age) {
+                                return 1;
+                        } else if (a.age == b.age) {
+                                return 0;
+                        } else {
+                                return -1;
+                        }
+}
+
 int main () {
-	Map<Specialist,int> b([](const Specialist& a,const Specialist& b){
-			if(a.age > b.age) {
-				return 1;
-			} else if (a.age == b.age) {
-				return 0;
-			} else {
-				return -1;
-			}
-        });
+//	Map<Specialist,int> b([](const Specialist& a,const Specialist& b){
+//			if(a.age > b.age) {
+//				return 1;
+//			} else if (a.age == b.age) {
+//				return 0;
+//			} else {
+//				return -1;
+//			}
+//        });
+        Map<Specialist,int> b(comp);
 	b.add(1,Specialist("John","Walker",15,2,90));
 	b.add(2,Specialist("Jane","Smith",18,2,95));
 	b.add(3,Specialist("Kareem","S",35,3,120));
