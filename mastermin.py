@@ -114,8 +114,8 @@ class Product_management:
 			sold_product = input("Input name of product to sell: ")
 			sold_quantity = int(input("Enter quantity of product: "))
 			for i in product_arr:
-				if i.product_unit >=sold_quantity:
-					if i.product_name==sold_product:
+				if i.product_name==sold_product:
+					if i.product_unit >=sold_quantity:
 						i.product_unit-=sold_quantity
 						Product_management.cash+= i.pruduct_price*sold_quantity
 						return "smt"
