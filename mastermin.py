@@ -79,5 +79,38 @@ print("Suppliers--------------")
 supplier_arr = [supplier1]
 print(supplier1)
 	
+class Function():
+	@staticmethod
 
+	def for_print(x):
+		print()
+		print("Please choose an action")
+		print()
+		choice = input("Action Id is:")
+		return choice		
 
+class Product_management:
+	cash =100000
+	password = "hello"
+	login = "manager"
+
+	@staticmethod
+	def add_product():	
+		new_product = Product(input("Category: "),input("Name of product: "), int(input("Unit:")), int(input("Price:")), int(input("Cost:")),input("Date: "),input("Description: "))
+		product_arr.append(new_product)
+		Product_management.cash-=new_product.product_price*new_product.product_unit
+
+	@staticmethod
+	def add_category():
+		new_category = Category(input("Category name: "),input("Category description: "))
+		category_arr.append(new_category)
+			
+Product_management.add_product()
+Product_management.add_category()
+for i in product_arr:
+	print(i)
+	print("--------------------------")
+
+for i in category_arr:
+	print(i)
+	print("--------------------------")
