@@ -51,7 +51,7 @@ class Courier(Person):
 	courier_id = 0
 
 	def __init__(self, name,  surname, address, city, phone):
-		super().__init(self, name ,  surname, address, city, phone)
+		super().__init__( name , surname, address, city, phone)
 		Courier.courier_id+=1
 	def __str__(self):
 		return f'Courier name is: {self.name}\n Courier surname is: {self.surname}\nCourier address is: {self.address}\nCourier city is: {self.city}\nCourier phone is: {self.phone}\nCourier id is: {Courier.courier_id}'	
@@ -64,15 +64,16 @@ print(courier1)
 class Supplier(Person):
 	supplier_id = 0
 
-	def __init__(self, name,  surname, address, city, phone):
-		super().__init(self, name ,  surname, address, city, phone)
+	def __init__(self, name,  surname, address, city, phone,company):
+		super().__init__(name ,  surname, address, city, phone)
+		self.company=company
 		Supplier.supplier_id+=1
 	
 	def __str__(self):
-		return f'Supplier name is: {self.name}\n Supplier surname is: {self.surname}\nSupplier address is: {self.address}\nSupplier city is: {self.city}\nSupplier phone is: {self.phone}\nSupplier id is: {Supplier.courier_id}'	
+		return f'Supplier name is: {self.name}\n Supplier surname is: {self.surname}\nSupplier address is: {self.address}\nSupplier city is: {self.city}\nSupplier phone is: {self.phone}\nSupplier id is: {Supplier.supplier_id}\nSuppli'	
 
 
-supplier1 = Supplier("Armen","Harutyunyan","14st 14h","Gyumri","095555555")
+supplier1 = Supplier("Armen","Harutyunyan","14st 14h","Gyumri","095555555","4u")
 
 print("Suppliers--------------")
 supplier_arr = [supplier1]
