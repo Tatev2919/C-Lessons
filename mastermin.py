@@ -38,3 +38,45 @@ product_arr = [product1]
 print("------------------------")
 print(product1)
 
+class Person:
+	
+	def __init__(self, name, surname, address, city, phone ):
+		self.name = name
+		self.surname = surname
+		self.address = address
+		self.city = city
+		self.phone = phone
+
+class Courier(Person):
+	courier_id = 0
+
+	def __init__(self, name,  surname, address, city, phone):
+		super().__init(self, name ,  surname, address, city, phone)
+		Courier.courier_id+=1
+	def __str__(self):
+		return f'Courier name is: {self.name}\n Courier surname is: {self.surname}\nCourier address is: {self.address}\nCourier city is: {self.city}\nCourier phone is: {self.phone}\nCourier id is: {Courier.courier_id}'	
+
+courier1 = Courier("Arman","Mkoyan","15st 14h","Yerevan","094444444")
+courier_arr = [courier1]
+print("Couriers--------------")
+print(courier1)
+
+class Supplier(Person):
+	supplier_id = 0
+
+	def __init__(self, name,  surname, address, city, phone):
+		super().__init(self, name ,  surname, address, city, phone)
+		Supplier.supplier_id+=1
+	
+	def __str__(self):
+		return f'Supplier name is: {self.name}\n Supplier surname is: {self.surname}\nSupplier address is: {self.address}\nSupplier city is: {self.city}\nSupplier phone is: {self.phone}\nSupplier id is: {Supplier.courier_id}'	
+
+
+supplier1 = Supplier("Armen","Harutyunyan","14st 14h","Gyumri","095555555")
+
+print("Suppliers--------------")
+supplier_arr = [supplier1]
+print(supplier1)
+	
+
+
