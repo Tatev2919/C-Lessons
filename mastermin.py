@@ -10,7 +10,7 @@ class Category:
 		Category.category_id += 1
 
 	def __str__(self):
-		return f' Category name is : {self.category_name} \n  Category desc is: {self.category_desc} \n Category id is: Categoty.category_id'
+		return f' Category name is : {self.category_name} \n  Category desc is: {self.category_desc} \n Category id is: {Category.category_id}'
 
 category1 = Category("Clothes")
 
@@ -70,7 +70,7 @@ class Supplier(Person):
 		Supplier.supplier_id+=1
 	
 	def __str__(self):
-		return f'Supplier name is: {self.name}\n Supplier surname is: {self.surname}\nSupplier address is: {self.address}\nSupplier city is: {self.city}\nSupplier phone is: {self.phone}\nSupplier id is: {Supplier.supplier_id}\nSuppli'	
+		return f'Supplier name is: {self.name}\n Supplier surname is: {self.surname}\nSupplier address is: {self.address}\nSupplier city is: {self.city}\nSupplier phone is: {self.phone}\nSupplier id is: {Supplier.supplier_id}'	
 
 
 supplier1 = Supplier("Armen","Harutyunyan","14st 14h","Gyumri","095555555","4u")
@@ -99,18 +99,44 @@ class Product_management:
 		new_product = Product(input("Category: "),input("Name of product: "), int(input("Unit:")), int(input("Price:")), int(input("Cost:")),input("Date: "),input("Description: "))
 		product_arr.append(new_product)
 		Product_management.cash-=new_product.product_price*new_product.product_unit
+		return "Smt"
 
 	@staticmethod
 	def add_category():
 		new_category = Category(input("Category name: "),input("Category description: "))
 		category_arr.append(new_category)
+		return "Smt"
+	
+	@staticmethod
+	def sell_product():
+
+		while(True):
+			sold_product = input("Input name of product to sell: ")
+			sold_quantity = int(input("Enter quantity of product: "))
+			for i in product_arr:
+				if i.product_unit >=sold_quantity:
+					if i.product_name==sold_product:
+						i.product_unit-=sold_quantity
+						Product_management.cash+= i.pruduct_price*sold_quantity
+						return "smt"
+					else:
+						return "st"
+				elif i==product_arr[-1]:
+					print("There is no enough product")
+					return "Smt"
+			again= ("Please enter 1 if you want to sell one more thing")
+			if (again==0):
+				return "Smt"	
 			
-Product_management.add_product()
-Product_management.add_category()
+#Product_management.add_product()
+#Product_management.add_category()
 for i in product_arr:
 	print(i)
 	print("--------------------------")
 
-for i in category_arr:
-	print(i)
-	print("--------------------------")
+#for i in category_arr:
+#	print(i)
+#	print("--------------------------")
+Product_management.sell_product()
+
+
