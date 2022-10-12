@@ -127,6 +127,58 @@ class Product_management:
 			again= ("Please enter 1 if you want to sell one more thing")
 			if (again==0):
 				return "Smt"	
+	@staticmethod
+	def check_cash():
+		return Product_management.cash
+	
+	@staticmethod
+	def show_array(choice):
+		array = []
+		if choice==1:
+			array=product_arr
+		elif choice==2:
+			array=category_arr
+		elif choice==3:
+			array=supplier_arr
+		elif choice==4:
+			array=courier_arr
+		else:
+			print("Your choice is not correct")
+		
+		for i in array:
+			print(i)
+			print("------------")
+			
+	@staticmethod 
+	def del_product(name):
+		for i in product_arr:
+			if name in i:
+				product_arr.remove(i)
+
+	@staticmethod
+	def add_remove_courier(choice):
+		
+		if choice==1:
+			new_courier = Courier(input("Name: "),input("Surname: "), input("Address:"), input("City:"), input("Phone:"))
+			courier_arr.appand(new_courier)
+		elif choice==2:
+			name_cour = (input("Name: "))
+			for i in courier_arr:
+				if i.name==name_cour:
+					courier_arr.remove(i)
+	
+	@staticmethod
+	def add_remove_supplier(choice):
+		if choice==1:
+			new_supplier = Supplier(input("Name: "),input("Surname: "), input("Address:"), input("City:"), input("Phone:"),input("Company"))
+			supplier_arr.append(new_supplier)
+		elif choice==2:
+			name_suppl = (input("Name: "))	
+			for i in supplier_arr:
+				if i.name==name_suppl:
+					supplier_arr.remove(i)
+	
+				
 			
 #Product_management.add_product()
 #Product_management.add_category()
