@@ -34,7 +34,9 @@ class Product:
 		return f' Product category is : {self.product_category} \n Product name is : {self.product_name} \n Product unit is : {self.product_unit} \n  Product price is : {self.product_price} \n Product cost is : {self.product_cost} \n Product date is : {self.product_date} \n Product desc is: {self.product_desc} \n Product id is : {Product.product_id} '
 
 product1 = Product("Clothes","T_shirt",2,200,150,"15.05")
-product_arr = [product1]
+product2 = Product("Clothes","Hudi",5,100,50,"15.06")
+product3 = Product("Clothes","Shoes",2,150,150,"10.02")
+product_arr = [product1,product2,product3]
 print("------------------------")
 print(product1)
 
@@ -189,6 +191,76 @@ for i in product_arr:
 #for i in category_arr:
 #	print(i)
 #	print("--------------------------")
-Product_management.sell_product()
+#Product_management.sell_product()
+
+class Payment:
+	payment_id = 0
+	
+	def __init__ (self):
+		self.payment_type = 'Cash'
+		self.payment_id = Payment.payment_id;
+		Payment.payment_id+=1
+
+	def __str__(self):
+		return f'payement type is {self.payment_type}\n Payment_if is: {Payment.payment_id}'
+
+
+class CardPayment:
+
+	def __init__ (self, card_type, card_number, cardholder_name,card_mm_yy,card_cvv):
+		self.payment_type = 'Card'
+		self.card_type = card_type
+		self.card_number = card_number;
+		self.cardholder_name =  cardholder_name;
+		self.card_mm_yy = card_mm_yy;
+		self.card_cvv = card_cvv;
+		self.payment_id = Payment.payment_id;
+		Payment.payment_id+=1
+
+	def __str__(self):
+		return f'Payment type is {self.payment_type}\nCard_type is {self.card_type}\nCard_number is {self.card_number}\nCard holder is {self.cardholder_name}\nCard date is { self.card_mm_yy}\nCard CVV is { self.card_cvv}\nPayment_id is: {Payment.payment_id}'
+
+card1 = CardPayment("Master","4875478411112545","SUREN GHARIBYAN","04/25","888")
+
+card_arr = [card1]
+print(card1)
+
+
+class OrderConstuctor:
+	shopping_bag = {}
+	chosen_product = {}
+	total_amount = {}
+
+	def __init__(self,product,count):
+		self.product=product
+		self.count = count
+
+	def add_product_to_order(self):
+		for prod in product_arr:
+			if (prod.product_name==self.product) and (prod.product_unit>=self.count):
+				OrderConstuctor.shopping_bag[self.product] = self.count
+				OrderConstuctor.chosen_product[self.product] = self.count
+				OrderConstuctor.total_amount[self.product] = [prod.product_price,  self.count]
+				return OrderConstuctor.shopping_bag
+			elif prod == product_arr[-1]:
+				print("There is no such product (") 
+				return
+
+	@staticmethod
+	def remove_product_from_order():
+		product_remove = input("What product do you want to remove ? ")
+		if product_remove in  OrderConstuctor.shopping_bag.keys():
+			del OrderConstuctor.shopping_bag[product_remove]
+			del OrderConstuctor.total_amount[product_remove]
+			print(OrderConstuctor.shopping_bag)
+			return OrderConstuctor.shopping_bag
+		else:
+			print("There is no such product in your shopping bag")
+
+
+
+order1 = OrderConstuctor("Hudi",2)
+print(order1.add_product_to_order())
+OrderConstuctor.remove_product_from_order()
 
 
