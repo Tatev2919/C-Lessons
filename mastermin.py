@@ -257,10 +257,32 @@ class OrderConstuctor:
 		else:
 			print("There is no such product in your shopping bag")
 
+	@staticmethod
+	def reduce_quantity():
+		product_red = input("What product do you want to reduce ? ")
+		product_count = int(input("Reduce until: "))
+		if product_red in  OrderConstuctor.shopping_bag.keys():
+			if product_count<  OrderConstuctor.shopping_bag[product_red]:
+				OrderConstuctor.shopping_bag[product_red]-= product_count
+				#OrderConstuctor.total_amount[product_red] = []
+				print(OrderConstuctor.shopping_bag)
+				return OrderConstuctor.shopping_bag
+			elif  product_count == OrderConstuctor.shopping_bag[product_red]:
+				del OrderConstuctor.shopping_bag[product_remove]
+				del OrderConstuctor.total_amount[product_remove]
+				print(OrderConstuctor.shopping_bag)
+				return OrderConstuctor.shopping_bag	
+			else:
+				print("There is no so many items!")
+		else:	
+			print("There is no such product in your shopping bag")
+		
+		
 
 
-order1 = OrderConstuctor("Hudi",2)
+order1 = OrderConstuctor("Hudi",4)
 print(order1.add_product_to_order())
-OrderConstuctor.remove_product_from_order()
+OrderConstuctor.reduce_quantity()
+#OrderConstuctor.remove_product_from_order()
 
 
