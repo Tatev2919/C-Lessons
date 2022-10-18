@@ -305,4 +305,34 @@ print(order1.add_product_to_order())
 OrderConstuctor.add_quantity()
 #OrderConstuctor.remove_product_from_order()
 
+class OrderDetail:
+
+	order_detail_id = 0
+	
+	def __init__ (self, shopping_bag, total_payment,delivery_address, delivery_city, recipinet_phone):
+		self.shopping_bag = shopping_bag
+		self.total_payment = total_payment
+		self.delivery_address = delivery_address
+		self.delivery_city = delivery_city
+		self.recipinet_phone = recipinet_phone
+		OrderDetail.order_detail_id+=1
+
+	def __str__(self):
+		return f'Shopping bag is : {self.shopping_bag}\nTotal_payment is : {self.total_payment}\nDelivery_address is : {self.delivery_address}\nDelivery city is : {self.delivery_city}\nRecipient phone is : {self.recipinet_phone}\nOrder detial id is : {OrderDetail.order_detail_id}'
+
+	
+class RegisteredUser(Person):
+	register_user_id = 0
+	
+	login_passwd_dict = {}
+	
+	def __init__(self, reg_date, email, password):
+		self.reg_date= reg_date
+		self.email = email
+		self.password = password
+		login_passwd_dict[login]=password
+		RegisteredUser.register_user_id+=1
+
+	
+	
 
