@@ -326,13 +326,13 @@ class RegisteredUser(Person):
 	
 	login_passwd_dict = {}
 	
-	def __init__(self, reg_date, email, password):
+	def __init__(self, name, surname, address, city, phone, reg_date, email, password):
+		super().__init__(name ,  surname, address, city, phone)
 		self.reg_date= reg_date
 		self.email = email
 		self.password = password
-		login_passwd_dict[login]=password
+		login_passwd_dict[email]=password
 		RegisteredUser.register_user_id+=1
 
-	
 	
 
