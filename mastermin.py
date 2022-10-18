@@ -335,17 +335,16 @@ class RegisteredUser(Person):
 		RegisteredUser.register_user_id+=1
 
 	
-	def add_credentials():
-		login_new = input("Your login is: ") 
-		if login_new in RegisteredUser.login_passwd_dict.keys():
+	def add_credentials(self):
+		if self.email in RegisteredUser.login_passwd_dict.keys():
 			return False
 		else:
-			password_new = input("Your passwd is : ")
+			self.password = input("Your passwd is : ")
 			for i in RegisteredUser.login_passwd_dict.keys():
-				if dict.get(i)==password_new:
+				if dict.get(i)==self.password:
 					return False
 			
-		RegisteredUser.login_passwd_dict[login_new]=password_new
+		RegisteredUser.login_passwd_dict[self.email]=self.password
 		return True
 
 user1 = RegisteredUser("Sven","Reimer","Shirak","Gyumri","+374584871", "04/20","sven@mail.ru","sv111") 
