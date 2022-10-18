@@ -348,5 +348,5 @@ class RegisteredUser(Person):
 		return True
 
 user1 = RegisteredUser("Sven","Reimer","Shirak","Gyumri","+374584871", "04/20","sven@mail.ru","sv111") 
-
+print(user1.add_credentials());
 
