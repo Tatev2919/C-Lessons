@@ -84,7 +84,7 @@ print(supplier1)
 class Function():
 	@staticmethod
 
-	def for_print(x):
+	def for_print():
 		print()
 		print("Please choose an action")
 		print()
@@ -107,7 +107,7 @@ class Product_management:
 	def add_category():
 		new_category = Category(input("Category name: "),input("Category description: "))
 		category_arr.append(new_category)
-		return "Smt"
+		return "New Category was added successfully"
 	
 	@staticmethod
 	def sell_product():
@@ -154,7 +154,7 @@ class Product_management:
 	@staticmethod 
 	def del_product(name):
 		for i in product_arr:
-			if name in i:
+			if name in i.product_name:
 				product_arr.remove(i)
 
 	@staticmethod
@@ -162,7 +162,7 @@ class Product_management:
 		
 		if choice==1:
 			new_courier = Courier(input("Name: "),input("Surname: "), input("Address:"), input("City:"), input("Phone:"))
-			courier_arr.appand(new_courier)
+			courier_arr.append(new_courier)
 		elif choice==2:
 			name_cour = (input("Name: "))
 			for i in courier_arr:
@@ -180,18 +180,43 @@ class Product_management:
 				if i.name==name_suppl:
 					supplier_arr.remove(i)
 	
-				
-			
-#Product_management.add_product()
-#Product_management.add_category()
-for i in product_arr:
-	print(i)
-	print("--------------------------")
 
-#for i in category_arr:
-#	print(i)
-#	print("--------------------------")
-#Product_management.sell_product()
+class ManagementInterface:
+    @staticmethod
+    def authorization():
+        passwd = input("Please enter your passwd: ")
+        login = input("Please enter your login: ")
+        if not(passwd==Product_management.password and login == Product_management.login):
+            return False
+        while (True):
+            print("Please choose an action ID :")
+            print("add_category - 1\nadd_product - 2\ncheck_cash - 3\nsell_product - 4\ndel_product - 5\nadd_courier - 6\nremove-courier - 7\nadd_supplier - 8\nremove_supplier - 9\nsell_product - 10\n")
+            choice = int(Function.for_print())
+            if (choice==1):
+                print("-----------------------------------------------")
+                print(Product_management.add_category())
+            elif (choice==2):
+                print("-----------------------------------------------")
+                Product_management.add_product()
+            elif (choice==3):
+                print("-----------------------------------------------")
+                Product_management.check_cash()
+            elif (choice==4):
+                print("-----------------------------------------------")
+                Product_management.sell_product()
+            elif (choice==5):
+                print("-----------------------------------------------")
+                Product_management.del_product(input("Product name to delete: "))
+            elif (choice==6):
+                print("-----------------------------------------------")
+                Product_management.add_remove_courier(1)
+            elif (choice==7):
+                print("-----------------------------------------------")
+                Product_management.add_remove_courier(2)
+            else:
+                return True
+
+ManagementInterface.authorization()
 
 class Payment:
 	payment_id = 0
@@ -300,9 +325,9 @@ class OrderConstuctor:
 
 
 order1 = OrderConstuctor("Hudi",4)
-print(order1.add_product_to_order())
+#print(order1.add_product_to_order())
 #OrderConstuctor.reduce_quantity()
-OrderConstuctor.add_quantity()
+#OrderConstuctor.add_quantity()
 #OrderConstuctor.remove_product_from_order()
 
 class OrderDetail:
@@ -347,6 +372,6 @@ class RegisteredUser(Person):
 		RegisteredUser.login_passwd_dict[self.email]=self.password
 		return True
 
-user1 = RegisteredUser("Sven","Reimer","Shirak","Gyumri","+374584871", "04/20","sven@mail.ru","sv111") 
-print(user1.add_credentials());
+user1 = RegisteredUser("Poghos","-yan","Shirak","Gyumri","+374584871", "04/20","sven@mail.ru","sv111") 
+#print(user1.add_credentials());
 
