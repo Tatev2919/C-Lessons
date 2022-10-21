@@ -97,17 +97,27 @@ class Product_management:
 	login = "manager"
 
 	@staticmethod
-	def add_product():	
-		new_product = Product(input("Category: "),input("Name of product: "), int(input("Unit:")), int(input("Price:")), int(input("Cost:")),input("Date: "),input("Description: "))
-		product_arr.append(new_product)
-		Product_management.cash-=new_product.product_price*new_product.product_unit
-		return "Smt"
+	def add_product():
+                category =  input("Category")
+                for i in category_arr:
+                    if category not in i.category_name: 
+                        if (input("No such category in category array. Do you want to add new [Y/N]:")=="Y"):
+                            Product_management.add_category(category)
+                        else:
+                            return "!!Product wasn't added as product categorty is not valid. "
+                new_product = Product(category,input("Name of product: "), int(input("Unit:")), int(input("Price:")), int(input("Cost:")),input("Date: "),input("Description: "))
+                product_arr.append(new_product)
+                Product_management.cash-=new_product.product_price*new_product.product_unit
+                return "New product was added succesfully"
 
 	@staticmethod
-	def add_category():
-		new_category = Category(input("Category name: "),input("Category description: "))
-		category_arr.append(new_category)
-		return "New Category was added successfully"
+	def add_category(category_name=""):
+                if (category_name==""):
+                    new_category = Category(input("Category name: "),input("Category description: "))
+                else:
+                    new_category = Category(category_name,input("Category description: "))
+                category_arr.append(new_category)
+                return "New Category was added successfully"
 	
 	@staticmethod
 	def sell_product():
@@ -119,16 +129,15 @@ class Product_management:
 				if i.product_name==sold_product:
 					if i.product_unit >=sold_quantity:
 						i.product_unit-=sold_quantity
-						Product_management.cash+= i.pruduct_price*sold_quantity
-						return "smt"
+						Product_management.cash+= sold_quantity*i.product_price
+						return (f'Congrats!!! Sold {sold_quantity} X {sold_product} ')
 					else:
-						return "st"
+					    return ("Sorry but there is not enough things! ")
 				elif i==product_arr[-1]:
-					print("There is no enough product")
-					return "Smt"
+				    return ("Sorry but there is no such thing in product array")
 			again= ("Please enter 1 if you want to sell one more thing")
 			if (again==0):
-				return "Smt"	
+				return "Ok. It's enough"	
 	@staticmethod
 	def check_cash():
 		return Product_management.cash
@@ -155,31 +164,37 @@ class Product_management:
 	def del_product(name):
 		for i in product_arr:
 			if name in i.product_name:
-				product_arr.remove(i)
+                                product_arr.remove(i)
+                                return f'{ name } product is successfully deleted '
 
 	@staticmethod
 	def add_remove_courier(choice):
 		
 		if choice==1:
-			new_courier = Courier(input("Name: "),input("Surname: "), input("Address:"), input("City:"), input("Phone:"))
-			courier_arr.append(new_courier)
+                        new_courier = Courier(input("Name: "),input("Surname: "), input("Address:"), input("City:"), input("Phone:"))
+                        courier_arr.append(new_courier)
+                        return "Congrats!! Your courier is succesfully added"
 		elif choice==2:
 			name_cour = (input("Name: "))
 			for i in courier_arr:
 				if i.name==name_cour:
-					courier_arr.remove(i)
+                                        courier_arr.remove(i)
+                                        return "!! Your courier is succesfully deleted "
 	
 	@staticmethod
 	def add_remove_supplier(choice):
 		if choice==1:
-			new_supplier = Supplier(input("Name: "),input("Surname: "), input("Address:"), input("City:"), input("Phone:"),input("Company"))
-			supplier_arr.append(new_supplier)
+                        new_supplier = Supplier(input("Name: "),input("Surname: "), input("Address:"), input("City:"), input("Phone:"),input("Company"))
+                        supplier_arr.append(new_supplier)
+                        return "Congrats!! Your supplier is succesfully added"
 		elif choice==2:
 			name_suppl = (input("Name: "))	
 			for i in supplier_arr:
 				if i.name==name_suppl:
-					supplier_arr.remove(i)
-	
+                                        supplier_arr.remove(i)
+                                        return "!! Your supplier is succesfully deleted "
+
+
 
 class ManagementInterface:
     @staticmethod
@@ -187,36 +202,39 @@ class ManagementInterface:
         passwd = input("Please enter your passwd: ")
         login = input("Please enter your login: ")
         if not(passwd==Product_management.password and login == Product_management.login):
+            print("------------Your password or login is incorrect----------")
             return False
         while (True):
             print("Please choose an action ID :")
-            print("add_category - 1\nadd_product - 2\ncheck_cash - 3\nsell_product - 4\ndel_product - 5\nadd_courier - 6\nremove-courier - 7\nadd_supplier - 8\nremove_supplier - 9\nsell_product - 10\n")
+            print("add_category - 1\nadd_product - 2\ncheck_cash - 3\nsell_product - 4\ndel_product - 5\nadd_courier - 6\nremove-courier - 7\nadd_supplier - 8\nremove_supplier - 9\nshow_array - 10\n")
             choice = int(Function.for_print())
+            print("-----------------------------------------------")
             if (choice==1):
-                print("-----------------------------------------------")
                 print(Product_management.add_category())
             elif (choice==2):
-                print("-----------------------------------------------")
-                Product_management.add_product()
+                print(Product_management.add_product())
             elif (choice==3):
-                print("-----------------------------------------------")
-                Product_management.check_cash()
+                print(f'Current cash is equal : {Product_management.check_cash()}')
             elif (choice==4):
-                print("-----------------------------------------------")
+                print("Sell product is buggy------- DONT FORGET TO RESOLVE IT")
                 Product_management.sell_product()
             elif (choice==5):
-                print("-----------------------------------------------")
-                Product_management.del_product(input("Product name to delete: "))
+                print(Product_management.del_product(input("Product name to delete: ")))
             elif (choice==6):
-                print("-----------------------------------------------")
-                Product_management.add_remove_courier(1)
+                print(Product_management.add_remove_courier(1))
             elif (choice==7):
-                print("-----------------------------------------------")
-                Product_management.add_remove_courier(2)
+                print(Product_management.add_remove_courier(2))
+            elif (choice==8):
+                print(Product_management.add_remove_supplier(1))
+            elif (choice==9):
+                print(Product_management.add_remove_supplier(2))
+            elif (choice==10):
+                print("Please choose what kind of array to show: \nShow product_arr: 1\nShow category_arr: 2\nShow courier_arr: 3\nShow supplier_arr: 4\n")
+                print(Product_management.show_array(int(input("Your choice is : "))))
             else:
                 return True
 
-ManagementInterface.authorization()
+#ManagementInterface.authorization()
 
 class Payment:
 	payment_id = 0
@@ -374,4 +392,28 @@ class RegisteredUser(Person):
 
 user1 = RegisteredUser("Poghos","-yan","Shirak","Gyumri","+374584871", "04/20","sven@mail.ru","sv111") 
 #print(user1.add_credentials());
+
+
+class SignIn:
+
+    def __init__(self,email,password):
+        self.email = email;
+        self.password = password;
+
+    
+    def edit_account (self):
+        print("Please choose an item you'd like to change :\nEdit name - 1\nEdit surname - 2\nEdit address - 3\nEdit city - 4\nEdit phone - 5\nEdit email - 6\nEdit password - 7\n")
+        choice = int(Function.for_print())
+        if (choice == 1):
+            RegisteredUser.name = input("Please enter new name : ")
+
+        else:
+            return False
+            
+
+
+
+
+
+
 
